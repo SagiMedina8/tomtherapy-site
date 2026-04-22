@@ -1,22 +1,16 @@
 ---
-// Text-based wordmark — replaces logo PNG (no transparent version available yet)
-// variant: "dark" = white text on dark/transparent bg (hero state)
-// variant: "light" = ink text on cream bg (scrolled / interior)
-// variant: "mobile" = compact single-line for the mobile nav bar
+// Text-based wordmark — uses currentColor for base, teal span for the accent.
+// Parent controls text color via CSS (.is-transparent → white, .is-solid → ink).
 interface Props {
-  variant?: "dark" | "light" | "mobile";
+  compact?: boolean;
   size?: "sm" | "md" | "lg";
   class?: string;
 }
 const {
-  variant = "light",
+  compact = false,
   size = "md",
   class: className = "",
 } = Astro.props;
-
-const textColor =
-  variant === "dark" ? "text-white" : "text-ink";
-const tealClass = "text-teal";
 
 const sizeClasses = {
   sm: "text-base",
@@ -27,23 +21,24 @@ const sizeClasses = {
 const wrapperSize = sizeClasses[size];
 ---
 <span
-  class={`inline-flex flex-col leading-none font-display font-light tracking-wide ${wrapperSize} ${textColor} ${className}`}
+  class={`inline-flex flex-col leading-none font-display font-light tracking-wide ${wrapperSize} ${className}`}
+  style="color: currentColor;"
   aria-label="SportTherapy — Tom Kushlin"
 >
-  {variant === "mobile" ? (
+  {compact ? (
     <span class="whitespace-nowrap">
-      <span>Sport</span><span class={tealClass}>Therapy</span>
+      <span>Sport</span><span class="text-teal">Therapy</span>
     </span>
   ) : (
     <>
       <span class="whitespace-nowrap" style="letter-spacing:0.02em;">
-        <span>Sport</span><span class={tealClass}>Therapy</span>
+        <span>Sport</span><span class="text-teal">Therapy</span>
       </span>
       <span
         class="mt-1 text-[0.55em] tracking-[0.35em] uppercase"
         style="letter-spacing:0.35em;"
       >
-        Tom <span class={tealClass}>Kushlin</span>
+        Tom <span class="text-teal">Kushlin</span>
       </span>
     </>
   )}

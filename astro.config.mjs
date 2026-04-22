@@ -1,16 +1,14 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
-import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 
-// sitemap re-enabled in Phase 6 (needs >1 page for plugin to serialize)
-const ENABLE_SITEMAP = process.env.ENABLE_SITEMAP !== "false";
-
+// NOTE: @astrojs/sitemap 3.2.1 has a buildDone bug with Astro 4.16
+// (reads .reduce on undefined pages). Using a custom sitemap endpoint
+// at src/pages/sitemap.xml.ts instead — simpler, one less dependency.
 export default defineConfig({
   site: "https://sporttherapy.netlify.app",
   integrations: [
     tailwind({ applyBaseStyles: false }),
-    ...(ENABLE_SITEMAP ? [sitemap()] : []),
     mdx(),
   ],
   output: "static",

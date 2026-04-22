@@ -89,7 +89,7 @@ const image = ogImage || `${site.url}/images/tom-hero.jpg`;
     {
       import.meta.env.PROD && site.ga4Id && (
         <>
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.ga4Id}`} />
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${site.ga4Id}`} />
           <script is:inline define:vars={{ ga4Id: site.ga4Id }}>
             window.dataLayer = window.dataLayer || [];
             function gtag() {
