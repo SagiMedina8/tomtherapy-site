@@ -18,7 +18,7 @@ const variants = [1, 2, 3, 4] as const;
   />
 
   <section class="mx-auto max-w-content px-5 sm:px-8 pb-24">
-    <div class="grid gap-6 md:grid-cols-2 md:gap-8">
+    <div class="grid gap-6 md:grid-cols-2 md:gap-8 items-stretch">
       {
         services.map((s, i) => (
           <ServiceCard service={s} variant={variants[i]} index={i} />

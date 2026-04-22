@@ -8,11 +8,11 @@ interface Props {
 const { eyebrow, title, lead, compact = false } = Astro.props;
 ---
 <header class={`mx-auto max-w-content px-5 sm:px-8 ${compact ? "pt-20 pb-10" : "pt-24 pb-16 md:pt-32 md:pb-20"} text-right`}>
-  <p class="eyebrow-label text-teal-deep mb-5 fade-up">{eyebrow}</p>
-  <h1 class="section-h2 max-w-[900px] ms-auto fade-up">{title}</h1>
+  <p class="eyebrow-label text-teal-deep mb-4 fade-up">{eyebrow}</p>
+  <h1 class="section-h2 max-w-[900px] fade-up">{title}</h1>
   {
     lead && (
-      <p class="body-prose text-ink-soft mt-6 max-w-prose ms-auto fade-up">
+      <p class="body-prose text-ink-soft mt-6 max-w-prose fade-up">
         {lead}
       </p>
     )
