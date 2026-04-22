@@ -84,19 +84,30 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
   </div>
 </header>
 
-<!-- Mobile full-screen overlay -->
-<div
+<!-- Mobile: backdrop + glass side drawer -->
+<div id="mobile-menu-backdrop" class="mobile-backdrop" hidden></div>
+
+<aside
   id="mobile-menu"
-  class="mobile-menu"
+  class="mobile-drawer"
   role="dialog"
   aria-modal="true"
-  aria-label="תפריט נייד"
+  aria-label="תפריט ראשי"
   hidden
 >
-  <nav
-    aria-label="ניווט נייד"
-    class="mobile-menu-nav"
+  <button
+    type="button"
+    id="drawer-close"
+    class="drawer-close"
+    aria-label="סגור תפריט"
   >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+      <line x1="6" y1="6" x2="18" y2="18" />
+      <line x1="18" y1="6" x2="6" y2="18" />
+    </svg>
+  </button>
+
+  <nav aria-label="ניווט נייד" class="drawer-nav">
     {
       navItems.map((item, i) => {
         const normalized = item.href.replace(/\/$/, "") || "/";
@@ -104,7 +115,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         return (
           <a
             href={item.href}
-            class:list={["mobile-menu-link", isActive && "is-active"]}
+            class:list={["drawer-link", isActive && "is-active"]}
             style={`--stagger:${i * 40}ms`}
             aria-current={isActive ? "page" : undefined}
           >
@@ -115,21 +126,19 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     }
   </nav>
 
-  <a href="/booking" class="mobile-menu-cta">
+  <a href="/booking" class="drawer-cta">
     קבע טיפול
   </a>
-</div>
+</aside>
 
 <style>
-  /* Transparent state: white content over hero */
+  /* ===== Header states (unchanged) ===== */
   header.is-transparent {
     background: transparent;
     color: #ffffff;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
-  header.is-transparent .nav-item-text {
-    color: #ffffff;
-  }
+  header.is-transparent .nav-item-text { color: #ffffff; }
   header.is-transparent .nav-cta {
     color: #ffffff;
     border-color: rgba(255, 255, 255, 0.85);
@@ -139,15 +148,12 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     color: var(--ink);
   }
 
-  /* Solid state: cream bg, ink text */
   header.is-solid {
     background: var(--cream);
     color: var(--ink);
     border-bottom: 1px solid var(--hairline);
   }
-  header.is-solid .nav-item-text {
-    color: var(--ink);
-  }
+  header.is-solid .nav-item-text { color: var(--ink); }
   header.is-solid .nav-cta {
     color: var(--ink);
     border-color: var(--ink);
@@ -157,15 +163,12 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     color: var(--cream);
   }
 
-  /* When scrolled past hero, transparent header becomes solid */
   header.is-transparent.is-scrolled {
     background: var(--cream);
     color: var(--ink);
     border-bottom-color: var(--hairline);
   }
-  header.is-transparent.is-scrolled .nav-item-text {
-    color: var(--ink);
-  }
+  header.is-transparent.is-scrolled .nav-item-text { color: var(--ink); }
   header.is-transparent.is-scrolled .nav-cta {
     color: var(--ink);
     border-color: var(--ink);
@@ -205,8 +208,9 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
   .nav-toggle-bar--middle { top: 7px; }
   .nav-toggle-bar--bottom { top: 14px; }
 
+  /* When drawer is open, hamburger morphs to X (color stays ink against cream header) */
   #nav-toggle[aria-expanded="true"] {
-    color: #ffffff;
+    color: var(--ink);
   }
   #nav-toggle[aria-expanded="true"] .nav-toggle-bar--top {
     top: 7px;
@@ -220,103 +224,181 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     transform: rotate(-45deg);
   }
 
-  /* ===== Mobile menu overlay ===== */
-  .mobile-menu {
+  /* ===== Backdrop behind the drawer ===== */
+  .mobile-backdrop {
     position: fixed;
     inset: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100svh;
-    z-index: 60;
-    background: var(--ink);
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 96px 32px 0;
+    z-index: 55;
+    background: rgba(15, 20, 25, 0.20);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 200ms ease;
-    overflow: hidden;
+    transition: opacity 200ms ease-out;
   }
-  .mobile-menu[hidden] {
+  .mobile-backdrop[hidden] {
     display: none;
   }
-  .mobile-menu.is-open {
+  .mobile-backdrop.is-open {
     opacity: 1;
     pointer-events: auto;
   }
 
-  .mobile-menu-nav {
+  /* ===== Glass side drawer ===== */
+  .mobile-drawer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 60;
+    width: 80vw;
+    max-width: 320px;
+    height: 100vh;
+    height: 100svh;
+    background: rgba(247, 243, 236, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-left: 1px solid rgba(15, 20, 25, 0.08);
+    box-shadow: -8px 0 32px rgba(15, 20, 25, 0.08);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    padding: 28px 28px calc(32px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(100%);
+    transition: transform 280ms cubic-bezier(0.32, 0.72, 0, 1);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  @media (min-width: 641px) and (max-width: 1023px) {
+    .mobile-drawer {
+      width: 60vw;
+      max-width: 380px;
+    }
+  }
+  .mobile-drawer[hidden] {
+    display: none;
+  }
+  .mobile-drawer.is-open {
+    transform: translateX(0);
+  }
+  .mobile-drawer.is-closing {
+    transition: transform 240ms ease-in;
+  }
+
+  /* Fallback for browsers without backdrop-filter */
+  @supports not ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+    .mobile-drawer {
+      background: rgba(247, 243, 236, 0.97);
+    }
+    .mobile-backdrop {
+      background: rgba(15, 20, 25, 0.35);
+    }
+  }
+
+  .drawer-close {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    transition: color 180ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .drawer-close:hover,
+  .drawer-close:focus-visible {
+    color: var(--teal-deep);
+  }
+
+  .drawer-nav {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 18px;
     text-align: right;
-    flex: 0 0 auto;
+    margin-top: 64px;
+    margin-bottom: auto;
   }
 
-  .mobile-menu-link {
+  .drawer-link {
     font-family: 'Frank Ruhl Libre', serif;
     font-size: 26px;
     font-weight: 500;
     line-height: 1.5;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--ink);
     transition: color 180ms ease;
-    transform: translateX(12px);
+    position: relative;
+    padding-block: 2px;
     opacity: 0;
+    transform: translateX(8px);
   }
-  .mobile-menu.is-open .mobile-menu-link {
-    animation: mobileMenuSlideIn 300ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  .mobile-drawer.is-open .drawer-link {
+    animation: drawerItemIn 260ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
     animation-delay: var(--stagger, 0ms);
   }
-  .mobile-menu-link:hover,
-  .mobile-menu-link.is-active {
-    color: var(--teal);
+  .drawer-link::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 0;
+    background: var(--teal-deep);
+    transition: width 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .drawer-link:hover,
+  .drawer-link:focus-visible,
+  .drawer-link.is-active {
+    color: var(--teal-deep);
+  }
+  .drawer-link:hover::after,
+  .drawer-link:focus-visible::after,
+  .drawer-link.is-active::after {
+    width: 100%;
   }
 
-  @keyframes mobileMenuSlideIn {
+  @keyframes drawerItemIn {
     to {
-      transform: translateX(0);
       opacity: 1;
+      transform: translateX(0);
     }
   }
 
-  .mobile-menu-cta {
-    position: absolute;
-    left: 32px;
-    right: 32px;
-    bottom: calc(48px + env(safe-area-inset-bottom, 0px));
-    width: calc(100% - 64px);
+  .drawer-cta {
+    display: block;
+    width: 100%;
+    text-align: center;
     background: var(--teal);
     color: var(--ink);
-    text-align: center;
     font-family: 'Heebo', sans-serif;
     font-size: 16px;
     font-weight: 600;
-    padding: 16px 32px;
+    padding: 14px 24px;
     border-radius: 2px;
-    transition: background 200ms ease;
-    opacity: 0;
+    margin-top: 24px;
+    margin-bottom: 32px;
+    transition: background 200ms ease, color 200ms ease;
   }
-  .mobile-menu.is-open .mobile-menu-cta {
-    animation: mobileMenuSlideIn 300ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-delay: 320ms;
-  }
-  .mobile-menu-cta:hover {
+  .drawer-cta:hover,
+  .drawer-cta:focus-visible {
     background: var(--teal-deep);
     color: #ffffff;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .mobile-menu,
-    .mobile-menu-link,
-    .mobile-menu-cta,
+    .mobile-backdrop,
+    .mobile-drawer,
+    .drawer-link,
     .nav-toggle-bar {
       transition: none !important;
       animation: none !important;
-      transform: none !important;
-      opacity: 1 !important;
+    }
+    .mobile-drawer.is-open .drawer-link {
+      opacity: 1;
+      transform: none;
     }
   }
 </style>
@@ -336,38 +418,58 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     onScroll();
   }
 
-  // Mobile menu
   const toggle = document.getElementById("nav-toggle");
-  const menu = document.getElementById("mobile-menu");
+  const closeBtn = document.getElementById("drawer-close");
+  const drawer = document.getElementById("mobile-menu");
+  const backdrop = document.getElementById("mobile-menu-backdrop");
   const body = document.body;
 
   let isOpen = false;
 
+  function getFocusable(): HTMLElement[] {
+    if (!drawer) return [];
+    const sel =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    return Array.from(drawer.querySelectorAll<HTMLElement>(sel)).filter(
+      (el) => el.offsetParent !== null || el === document.activeElement,
+    );
+  }
+
   const openMenu = () => {
-    if (!menu || !toggle) return;
+    if (!drawer || !toggle || !backdrop) return;
     isOpen = true;
-    menu.removeAttribute("hidden");
-    // force reflow so the transition fires
-    void menu.offsetHeight;
-    menu.classList.add("is-open");
+    drawer.removeAttribute("hidden");
+    backdrop.removeAttribute("hidden");
+    // force reflow so transitions fire
+    void drawer.offsetHeight;
+    drawer.classList.add("is-open");
+    drawer.classList.remove("is-closing");
+    backdrop.classList.add("is-open");
     toggle.setAttribute("aria-expanded", "true");
     toggle.setAttribute("aria-label", "סגור תפריט");
     body.style.overflow = "hidden";
-    const firstLink = menu.querySelector("a");
-    if (firstLink instanceof HTMLElement) firstLink.focus();
+    // Focus first link
+    const focusables = getFocusable();
+    const firstLink = focusables.find((el) => el.tagName === "A");
+    if (firstLink) firstLink.focus();
   };
 
   const closeMenu = () => {
-    if (!menu || !toggle) return;
+    if (!drawer || !toggle || !backdrop) return;
     isOpen = false;
-    menu.classList.remove("is-open");
+    drawer.classList.add("is-closing");
+    drawer.classList.remove("is-open");
+    backdrop.classList.remove("is-open");
     toggle.setAttribute("aria-expanded", "false");
     toggle.setAttribute("aria-label", "פתח תפריט");
     body.style.overflow = "";
-    // Hide after fade-out transition completes
     window.setTimeout(() => {
-      if (!isOpen) menu.setAttribute("hidden", "");
-    }, 200);
+      if (!isOpen) {
+        drawer.setAttribute("hidden", "");
+        backdrop.setAttribute("hidden", "");
+        drawer.classList.remove("is-closing");
+      }
+    }, 260);
     toggle.focus();
   };
 
@@ -375,27 +477,61 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     if (isOpen) closeMenu();
     else openMenu();
   });
+  closeBtn?.addEventListener("click", closeMenu);
+  backdrop?.addEventListener("click", closeMenu);
 
-  // Close on ESC
+  // Close on ESC + focus trap
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && isOpen) closeMenu();
+    if (!isOpen) return;
+    if (e.key === "Escape") {
+      closeMenu();
+      return;
+    }
+    if (e.key === "Tab") {
+      const focusables = getFocusable();
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (e.shiftKey) {
+        if (active === first || !drawer?.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (active === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
   });
 
-  // Close when a nav link is clicked
-  menu?.querySelectorAll("a").forEach((a) =>
-    a.addEventListener("click", () => closeMenu()),
-  );
-
-  // Click on empty overlay area (not on a link) closes
-  menu?.addEventListener("click", (e) => {
-    if (e.target === menu) closeMenu();
+  // Link click → close + delayed navigation
+  drawer?.querySelectorAll<HTMLAnchorElement>("a[href]").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const href = a.getAttribute("href");
+      if (!href) return;
+      // Let cmd/ctrl-click open in new tab normally
+      if (e.metaKey || e.ctrlKey || e.shiftKey || a.target === "_blank") {
+        closeMenu();
+        return;
+      }
+      e.preventDefault();
+      closeMenu();
+      window.setTimeout(() => {
+        window.location.href = href;
+      }, 100);
+    });
   });
 
   // Close on route change (bfcache return)
   window.addEventListener("pageshow", () => {
-    if (menu && !menu.hasAttribute("hidden")) {
-      menu.classList.remove("is-open");
-      menu.setAttribute("hidden", "");
+    if (drawer && !drawer.hasAttribute("hidden")) {
+      drawer.classList.remove("is-open", "is-closing");
+      drawer.setAttribute("hidden", "");
+      backdrop?.classList.remove("is-open");
+      backdrop?.setAttribute("hidden", "");
       body.style.overflow = "";
       toggle?.setAttribute("aria-expanded", "false");
       toggle?.setAttribute("aria-label", "פתח תפריט");
