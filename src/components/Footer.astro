@@ -1,0 +1,96 @@
+---
+import { site, whatsappLink } from "../data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 bg-ink text-cream">
+  <div class="mx-auto max-w-content px-5 sm:px-8 py-16 lg:py-20">
+    <div class="grid gap-10 md:grid-cols-3 md:gap-12">
+      <!-- Right col: logo + tagline -->
+      <div class="space-y-4 md:order-1">
+        <img
+          src="/images/logo-sporttherapy.jpg"
+          alt="SportTherapy — Tom Kushlin"
+          class="h-20 w-auto"
+          loading="lazy"
+          decoding="async"
+          width="260"
+          height="80"
+        />
+        <p class="text-sm leading-relaxed text-cream/80 max-w-[260px]">
+          ספורטתרפיה מתקדמת<br />
+          רמת גן · תל אביב
+        </p>
+      </div>
+
+      <!-- Middle col: hours -->
+      <div class="md:order-2">
+        <h3 class="eyebrow-label text-teal mb-4">שעות פעילות</h3>
+        <ul class="space-y-1.5 text-sm">
+          {
+            site.hours.map((h) => (
+              <li class="flex items-center justify-between gap-4">
+                <span class="text-cream/90">
+                  {h.day}
+                  {h.label && (
+                    <span class="text-cream/60 text-xs"> · {h.label}</span>
+                  )}
+                </span>
+                <span dir="ltr" class="text-cream/80 tabular-nums">
+                  {h.hours}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Left col: contact -->
+      <div class="md:order-3 space-y-5">
+        <h3 class="eyebrow-label text-teal mb-4">צור קשר</h3>
+        <div class="space-y-2 text-sm">
+          <a
+            href={whatsappLink()}
+            target="_blank"
+            rel="noopener"
+            class="block hover:text-teal transition-colors"
+          >
+            וואטסאפ · <span dir="ltr">{site.whatsappDisplay}</span>
+          </a>
+          <a
+            href={`mailto:${site.email}`}
+            class="block hover:text-teal transition-colors break-all"
+          >
+            {site.email}
+          </a>
+        </div>
+
+        <div class="space-y-3 text-sm text-cream/80 pt-2 border-t border-white/10">
+          {
+            site.addresses.map((addr) => (
+              <div>
+                <div class="text-xs text-cream/60 mb-0.5">{addr.title}</div>
+                <div>
+                  {addr.street}, {addr.city}
+                  {"note" in addr && addr.note && (
+                    <span class="text-cream/50"> {addr.note}</span>
+                  )}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-cream/50">
+      <p>
+        © {year} Tom Kushlin SportTherapy · כל הזכויות שמורות
+      </p>
+      <p class="flex gap-4">
+        <a href="/booking" class="hover:text-teal transition-colors">קביעת תור</a>
+        <a href="/contact" class="hover:text-teal transition-colors">צור קשר</a>
+      </p>
+    </div>
+  </div>
+</footer>

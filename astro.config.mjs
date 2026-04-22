@@ -3,11 +3,14 @@ import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 
+// sitemap re-enabled in Phase 6 (needs >1 page for plugin to serialize)
+const ENABLE_SITEMAP = process.env.ENABLE_SITEMAP !== "false";
+
 export default defineConfig({
   site: "https://sporttherapy.netlify.app",
   integrations: [
     tailwind({ applyBaseStyles: false }),
-    sitemap(),
+    ...(ENABLE_SITEMAP ? [sitemap()] : []),
     mdx(),
   ],
   output: "static",

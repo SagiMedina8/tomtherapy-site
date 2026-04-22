@@ -1,0 +1,35 @@
+---
+import { site } from "../data/site";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  name: "SportTherapy - Tom Kushlin",
+  image: `${site.url}/images/tom-hero.jpg`,
+  telephone: `+${site.whatsappNumber}`,
+  address: [
+    {
+      "@type": "PostalAddress",
+      streetAddress: "ארניה 6",
+      addressLocality: "רמת גן",
+      addressCountry: "IL",
+    },
+    {
+      "@type": "PostalAddress",
+      streetAddress: "Nana Home",
+      addressLocality: "תל אביב",
+      addressCountry: "IL",
+    },
+  ],
+  openingHoursSpecification: [
+    { "@type": "OpeningHoursSpecification", dayOfWeek: "Sunday", opens: "09:00", closes: "15:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: "Monday", opens: "10:00", closes: "18:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: "Tuesday", opens: "09:00", closes: "12:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: "Wednesday", opens: "09:00", closes: "18:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: "Thursday", opens: "09:00", closes: "19:00" },
+  ],
+  priceRange: "$$",
+  url: site.url,
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

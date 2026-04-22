@@ -1,0 +1,50 @@
+---
+// Text-based wordmark — replaces logo PNG (no transparent version available yet)
+// variant: "dark" = white text on dark/transparent bg (hero state)
+// variant: "light" = ink text on cream bg (scrolled / interior)
+// variant: "mobile" = compact single-line for the mobile nav bar
+interface Props {
+  variant?: "dark" | "light" | "mobile";
+  size?: "sm" | "md" | "lg";
+  class?: string;
+}
+const {
+  variant = "light",
+  size = "md",
+  class: className = "",
+} = Astro.props;
+
+const textColor =
+  variant === "dark" ? "text-white" : "text-ink";
+const tealClass = "text-teal";
+
+const sizeClasses = {
+  sm: "text-base",
+  md: "text-xl",
+  lg: "text-2xl",
+};
+
+const wrapperSize = sizeClasses[size];
+---
+<span
+  class={`inline-flex flex-col leading-none font-display font-light tracking-wide ${wrapperSize} ${textColor} ${className}`}
+  aria-label="SportTherapy — Tom Kushlin"
+>
+  {variant === "mobile" ? (
+    <span class="whitespace-nowrap">
+      <span>Sport</span><span class={tealClass}>Therapy</span>
+    </span>
+  ) : (
+    <>
+      <span class="whitespace-nowrap" style="letter-spacing:0.02em;">
+        <span>Sport</span><span class={tealClass}>Therapy</span>
+      </span>
+      <span
+        class="mt-1 text-[0.55em] tracking-[0.35em] uppercase"
+        style="letter-spacing:0.35em;"
+      >
+        Tom <span class={tealClass}>Kushlin</span>
+      </span>
+    </>
+  )}
+</span>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout
+  title="עמוד הבית"
+  description="SportTherapy — Tom Kushlin. ספורטתרפיה מתקדמת: דיקור יבש, עיסוי רפואי, שיקום ספורט ותרגול אישי. רמת גן ותל אביב."
+  transparentOverHero={true}
+  preloadHero="/images/tom-hero.jpg"
+>
+  <section class="relative min-h-[100svh] w-full overflow-hidden bg-ink">
+    <img
+      src="/images/tom-hero.jpg"
+      alt="טום קושלין — ספורטתרפיסט"
+      class="absolute inset-0 h-full w-full object-cover object-center ken-burns"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70 md:bg-gradient-to-l md:from-black/60 md:via-black/20 md:to-transparent"></div>
+    <div class="relative z-10 flex min-h-[100svh] items-end pb-[14vh] pt-28">
+      <div class="mx-auto w-full max-w-content px-5 sm:px-8 text-white text-right">
+        <p class="eyebrow-label text-teal/90 mb-5">SPORT THERAPY · TOM KUSHLIN</p>
+        <h1 class="hero-headline max-w-[640px] ms-auto">
+          הכאב לא חייב<br />להיות חלק מהחיים
+        </h1>
+        <p class="mt-6 max-w-[540px] ms-auto body-prose text-white/85">
+          Placeholder hero — full home page lands in Phase 2.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 text-center">
+    <p class="body-prose">Phase 1 scaffold — nav, layout, footer in place.</p>
+  </section>
+</BaseLayout>

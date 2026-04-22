@@ -1,0 +1,279 @@
+---
+import { navItems } from "../data/site";
+import Wordmark from "./Wordmark.astro";
+
+interface Props {
+  transparentOverHero?: boolean;
+}
+const { transparentOverHero = false } = Astro.props;
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<a href="#main" class="skip-link">דלג לתוכן</a>
+
+<header
+  id="top-nav"
+  data-transparent={transparentOverHero ? "true" : "false"}
+  class:list={[
+    "fixed inset-x-0 top-0 z-50 w-full transition-colors duration-300",
+    transparentOverHero ? "is-transparent" : "is-solid",
+  ]}
+>
+  <div class="mx-auto flex h-[68px] max-w-content items-center justify-between gap-4 px-5 sm:px-8 lg:h-[76px]">
+    <!-- Right side (RTL first): logo -->
+    <a
+      href="/"
+      class="flex items-center"
+      aria-label="עמוד הבית · SportTherapy"
+    >
+      <span class="hidden lg:inline-block">
+        <Wordmark variant="light" size="md" class="nav-wordmark-light" />
+        <Wordmark variant="dark" size="md" class="nav-wordmark-dark" />
+      </span>
+      <span class="lg:hidden">
+        <Wordmark variant="mobile" size="sm" class="nav-wordmark-light" />
+        <Wordmark variant="mobile" size="sm" class="nav-wordmark-dark" style="display:none;" />
+      </span>
+    </a>
+
+    <!-- Middle: nav items (desktop) -->
+    <nav
+      aria-label="ניווט ראשי"
+      class="hidden lg:flex items-center gap-8 text-[15px]"
+    >
+      {
+        navItems.map((item) => {
+          const normalized = item.href.replace(/\/$/, "") || "/";
+          const isActive = normalized === currentPath;
+          return (
+            <a
+              href={item.href}
+              class="nav-link nav-item-text"
+              aria-current={isActive ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <!-- Left side (RTL last): CTA -->
+    <div class="flex items-center gap-2 lg:gap-4">
+      <a
+        href="/booking"
+        class="nav-cta inline-flex h-10 items-center rounded-[2px] border border-current px-4 text-sm font-semibold transition-colors"
+      >
+        קבע טיפול
+      </a>
+
+      <!-- Hamburger (mobile only) -->
+      <button
+        type="button"
+        id="nav-toggle"
+        class="nav-item-text lg:hidden inline-flex h-11 w-11 items-center justify-center"
+        aria-label="פתח תפריט"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <line x1="4" y1="7" x2="20" y2="7" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="17" x2="20" y2="17" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile full-screen overlay -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-40 hidden bg-ink text-white"
+  role="dialog"
+  aria-modal="true"
+  aria-label="תפריט נייד"
+>
+  <div class="flex h-full flex-col">
+    <div class="flex h-[68px] items-center justify-between px-5">
+      <Wordmark variant="dark" size="sm" />
+      <button
+        type="button"
+        id="nav-close"
+        class="inline-flex h-11 w-11 items-center justify-center text-white"
+        aria-label="סגור תפריט"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <line x1="6" y1="6" x2="18" y2="18" />
+          <line x1="18" y1="6" x2="6" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <nav
+      aria-label="ניווט נייד"
+      class="flex flex-1 flex-col items-end justify-center gap-5 px-8 pb-20 text-right"
+    >
+      {
+        navItems.map((item, i) => (
+          <a
+            href={item.href}
+            class="font-serif text-[36px] font-medium leading-tight text-white/90 transition-colors hover:text-teal"
+            style={`animation-delay:${i * 80}ms`}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href="/booking"
+        class="mt-6 inline-flex h-12 items-center rounded-[2px] border border-teal px-6 text-teal"
+      >
+        קבע טיפול
+      </a>
+    </nav>
+  </div>
+</div>
+
+<style>
+  /* Transparent state: white content over hero */
+  header.is-transparent {
+    background: transparent;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  header.is-transparent .nav-item-text {
+    color: #ffffff;
+  }
+  header.is-transparent .nav-cta {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.85);
+  }
+  header.is-transparent .nav-cta:hover {
+    background: #ffffff;
+    color: var(--ink);
+  }
+  header.is-transparent .nav-wordmark-light {
+    display: none;
+  }
+  header.is-transparent .nav-wordmark-dark {
+    display: inline-flex;
+  }
+
+  /* Solid state: cream bg, ink text */
+  header.is-solid {
+    background: var(--cream);
+    color: var(--ink);
+    border-bottom: 1px solid var(--hairline);
+  }
+  header.is-solid .nav-item-text {
+    color: var(--ink);
+  }
+  header.is-solid .nav-cta {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  header.is-solid .nav-cta:hover {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  header.is-solid .nav-wordmark-light {
+    display: inline-flex;
+  }
+  header.is-solid .nav-wordmark-dark {
+    display: none;
+  }
+
+  /* When scrolled past hero, transparent header becomes solid */
+  header.is-transparent.is-scrolled {
+    background: var(--cream);
+    color: var(--ink);
+    border-bottom-color: var(--hairline);
+  }
+  header.is-transparent.is-scrolled .nav-item-text {
+    color: var(--ink);
+  }
+  header.is-transparent.is-scrolled .nav-cta {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  header.is-transparent.is-scrolled .nav-cta:hover {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  header.is-transparent.is-scrolled .nav-wordmark-light {
+    display: inline-flex;
+  }
+  header.is-transparent.is-scrolled .nav-wordmark-dark {
+    display: none;
+  }
+
+  @media (max-width: 1023px) {
+    /* CTA is the only desktop CTA on mobile nav bar, visible always */
+    .nav-cta {
+      height: 38px;
+      padding-inline: 0.9rem;
+      font-size: 0.8125rem;
+    }
+  }
+</style>
+
+<script>
+  // Scroll state — for pages with transparentOverHero
+  const header = document.getElementById("top-nav");
+  if (header?.dataset.transparent === "true") {
+    const onScroll = () => {
+      if (window.scrollY > 60) {
+        header.classList.add("is-scrolled");
+      } else {
+        header.classList.remove("is-scrolled");
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Mobile menu
+  const toggle = document.getElementById("nav-toggle");
+  const close = document.getElementById("nav-close");
+  const menu = document.getElementById("mobile-menu");
+  const body = document.body;
+
+  const openMenu = () => {
+    if (!menu || !toggle) return;
+    menu.classList.remove("hidden");
+    toggle.setAttribute("aria-expanded", "true");
+    body.style.overflow = "hidden";
+    // focus first link
+    const firstLink = menu.querySelector("a");
+    if (firstLink instanceof HTMLElement) firstLink.focus();
+  };
+  const closeMenu = () => {
+    if (!menu || !toggle) return;
+    menu.classList.add("hidden");
+    toggle.setAttribute("aria-expanded", "false");
+    body.style.overflow = "";
+    toggle.focus();
+  };
+
+  toggle?.addEventListener("click", openMenu);
+  close?.addEventListener("click", closeMenu);
+
+  // Close on ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu && !menu.classList.contains("hidden")) {
+      closeMenu();
+    }
+  });
+
+  // Close on any link click inside the menu
+  menu?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => closeMenu()),
+  );
+
+  // Close on route change (just in case)
+  window.addEventListener("pageshow", () => {
+    menu?.classList.add("hidden");
+    body.style.overflow = "";
+  });
+</script>
