@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { site, whatsappLink } from "../data/site";
+---
+<BaseLayout
+  title="קביעת תור"
+  description="קבע תור אונליין ל-SportTherapy — בחר יום, שעה ומיקום (רמת גן או תל אביב)."
+>
+  <PageHeader
+    eyebrow="קביעת תור"
+    title="בחר יום, שעה, ומיקום"
+    lead="תורים נפתחים עד חודשיים קדימה. אם השעה שאתה צריך לא פנויה — שלח לי הודעה בוואטסאפ ואמצא פתרון."
+    compact
+  />
+
+  <!-- Plannie iframe -->
+  <section class="mx-auto px-0 sm:px-5 md:px-8 pb-12">
+    <div class="mx-auto w-full max-w-[900px]">
+      <iframe
+        src="https://plannieapp.com/?name=tomkushsporttherapy"
+        loading="lazy"
+        title="קביעת תור — SportTherapy"
+        scrolling="yes"
+        class="block w-full border-0 bg-paper"
+        style="min-height:700px;"
+        id="plannie-frame"
+      ></iframe>
+    </div>
+    <style>
+      @media (min-width: 768px) {
+        #plannie-frame {
+          min-height: 820px;
+        }
+      }
+    </style>
+  </section>
+
+  <!-- Fallback + hours -->
+  <section class="mx-auto max-w-content px-5 sm:px-8 pb-24">
+    <div class="mx-auto max-w-prose text-center fade-up">
+      <p class="text-sm text-ink-soft mb-8">
+        לא עובד לך?
+        <a
+          href={whatsappLink()}
+          target="_blank"
+          rel="noopener"
+          class="border-b border-teal pb-0.5 hover:text-teal-deep transition-colors ms-2"
+        >
+          שלח הודעה בוואטסאפ ←
+        </a>
+      </p>
+
+      <hr class="hairline mb-10" />
+
+      <h2 class="eyebrow-label text-teal-deep mb-6">שעות פעילות</h2>
+      <ul class="space-y-2 text-sm max-w-sm mx-auto">
+        {
+          site.hours.map((h) => (
+            <li class="flex items-center justify-between gap-4 text-ink">
+              <span class="text-ink">
+                {h.day}
+                {h.label && (
+                  <span class="text-ink-soft/70 text-xs"> · {h.label}</span>
+                )}
+              </span>
+              <span dir="ltr" class="text-ink-soft tabular-nums">
+                {h.hours}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <hr class="hairline mt-10 mb-10" />
+
+      <div class="grid sm:grid-cols-2 gap-6 text-right text-sm">
+        {
+          site.addresses.map((a) => (
+            <div>
+              <p class="text-xs text-teal-deep eyebrow-label mb-2">{a.title}</p>
+              <p class="text-ink">
+                {a.street}, {a.city}
+                {"note" in a && a.note && (
+                  <span class="block text-ink-soft/60 text-xs mt-1">
+                    {a.note}
+                  </span>
+                )}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
