@@ -1,0 +1,63 @@
+---
+import type { Service } from "../data/services";
+
+interface Props {
+  service: Service;
+  variant: 1 | 2 | 3 | 4;
+  index?: number;
+}
+const { service, variant, index } = Astro.props;
+const s = service;
+const number = String((index ?? 0) + 1).padStart(2, "0");
+---
+<article
+  id={s.slug}
+  class:list={[
+    "group relative overflow-hidden bg-paper fade-up",
+    variant === 1 && "border-t-2 border-teal shadow-hairline",
+    variant === 2 && "md:grid md:grid-cols-2 md:gap-0",
+    variant === 3 && "border border-hairline",
+    variant === 4 && "border border-hairline",
+  ]}
+>
+  {
+    variant === 4 && (
+      <span
+        class="pointer-events-none absolute top-6 start-6 font-display font-light text-[140px] leading-none text-hairline select-none"
+        aria-hidden="true"
+      >
+        {number}
+      </span>
+    )
+  }
+
+  {
+    variant === 2 && (
+      <div
+        class="order-last md:order-first bg-cover bg-center h-56 md:h-full min-h-[280px]"
+        style="background-image: linear-gradient(135deg, rgba(15,20,25,0.05), rgba(15,158,152,0.12)), url('/images/tom-about.jpg');"
+        role="presentation"
+        aria-hidden="true"
+      >
+        {/* TODO: replace with a dedicated service photo once provided */}
+      </div>
+    )
+  }
+
+  <div class:list={[
+    "relative p-8 md:p-12",
+    variant === 4 && "md:ps-16",
+  ]}>
+    <p class="eyebrow-label text-teal-deep mb-4">{s.eyebrow}</p>
+    <h3 class="section-h3 mb-4 font-bold">{s.titleHe}</h3>
+    <p class="body-prose text-ink-soft mb-6 leading-[1.75]">{s.description}</p>
+
+    <a
+      href={s.linkHref}
+      class="inline-flex items-center gap-2 text-sm font-semibold text-ink group-hover:text-teal-deep transition-colors"
+    >
+      <span class="border-b border-teal pb-0.5">{s.linkText}</span>
+      <span aria-hidden="true">←</span>
+    </a>
+  </div>
+</article>

@@ -1,0 +1,36 @@
+---
+import type { Testimonial } from "../data/testimonials";
+interface Props {
+  testimonial: Testimonial;
+}
+const { testimonial: t } = Astro.props;
+---
+<article class="relative bg-paper border border-hairline p-8 md:p-10 fade-up">
+  <!-- stars -->
+  <div class="flex items-center gap-1 mb-5" aria-label={`${t.stars} כוכבים מתוך 5`}>
+    {
+      Array.from({ length: t.stars }).map(() => (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#3FCBC5" aria-hidden="true">
+          <path d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7-6.3-3.8L5.7 21.2l1.7-7-5.4-4.7 7.1-.6L12 2z" />
+        </svg>
+      ))
+    }
+  </div>
+
+  <!-- quote mark (decorative) -->
+  <span
+    aria-hidden="true"
+    class="absolute top-4 start-6 font-display text-5xl leading-none text-teal/40 select-none"
+  >
+    ״
+  </span>
+
+  <blockquote class="font-serif font-medium text-[20px] leading-[1.55] text-ink mb-6">
+    {t.quote}
+  </blockquote>
+
+  <footer class="text-sm">
+    <span class="font-semibold text-ink">{t.name}</span>
+    <span class="text-ink-soft"> · {t.role}</span>
+  </footer>
+</article>
