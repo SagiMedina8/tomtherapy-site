@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { whatsappLink } from "../data/site";
 import { services } from "../data/services";
 import home from "../content/site/home.json";
+import BodyMap from "../components/BodyMap.astro";
 ---
 <BaseLayout
   title={home.seo.title}
@@ -64,6 +65,9 @@ import home from "../content/site/home.json";
       </div>
     </div>
   </section>
+
+  <!-- INTERACTIVE BODY MAP -->
+  <BodyMap />
 
   <!-- POST-HERO STATEMENT SECTION -->
   <section class="bg-cream">

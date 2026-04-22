@@ -7,14 +7,14 @@
 - [ ] **לוגו PNG עם שקיפות** — כרגע יש רק JPG עם רקע שחור (`public/images/logo-sporttherapy.jpg`). הוא משמש בפוטר (שם הרקע כהה ולכן זה מתאים), כ-apple-touch-icon וכ-og:image. גרסת PNG תאפשר שימוש נוסף באזורים בהירים (למשל: לצד headings).
 - [ ] **הכתובת המדויקת של סטודיו Nana Home בתל אביב** — כרגע `[כתובת מדויקת תינתן]`. מופיע ב-`src/data/site.ts` וב-`src/components/SchemaOrg.astro` וב-Footer.
 - [ ] **פין שני במפת Google** (`src/pages/contact.astro`) — המפה כרגע מציגה רק את ארניה 6 רמת גן. הוספת הפין השני תלויה בכתובת Nana Home. ב-Google Maps אפשר להשתמש ב-Directions API או בשני iframes.
-- [ ] **תמונות לשירותים (אופציונלי)** — ה-ServiceCard מספר 2 משתמש כרגע ב-`tom-about.jpg` כרקע זמני לחצי מהכרטיס. שווה לצלם/לבחור תמונה ייעודית (Dry Needling, Medical Massage, וכו').
 - [ ] **אימות תוכן המאמרים** — המאמרים הרפואיים נכתבו על בסיס התדרוך שלך. שווה ביקורת שלך / רופא על דיוק עובדתי לפני פרסום.
+- [ ] **אימות תוכן ה-bodyMap (14 אזורי גוף)** — התוכן של המפה האינטראקטיבית בעמוד הבית נכתב על בסיס התדרוך. שווה לעבור על 14 האזורים ב-`src/content/site/bodyMap.json` ולוודא שהניסוחים (בעיות נפוצות + "הגישה הטיפולית") תואמים את הגישה המקצועית שלך.
 
 ## 2. חשבונות / מפתחות
 
-- [ ] **GA4 Measurement ID** — `src/data/site.ts`: `ga4Id: "G-XXXXXXXXXX"`. להחליף ל-ID האמיתי. קוד ה-tracking רץ רק ב-production (`import.meta.env.PROD`), אז לא יפגע ב-dev.
-- [ ] **אימייל אמיתי** — `src/data/site.ts`: `email: "tom@kushlinsporttherapy.co.il"`. זה placeholder. אם זה האימייל האמיתי — להשאיר; אחרת להחליף.
-- [ ] **תחום מותאם** — ב-`astro.config.mjs` ו-`src/data/site.ts` מוגדר `https://sporttherapy.netlify.app`. לעדכן לתחום הקבוע (למשל `kushlinsporttherapy.co.il`) ברגע שהוא מוכן — זה משפיע על sitemap, canonical URLs, Schema.org, og:image.
+- [ ] **GA4 Measurement ID** — `src/content/site/brand.json`: `"ga4Id": "G-XXXXXXXXXX"`. להחליף ל-ID האמיתי. קוד ה-tracking רץ רק ב-production (`import.meta.env.PROD`), אז לא יפגע ב-dev.
+- [ ] **אימייל אמיתי** — `src/content/site/brand.json`: `"email": "tom@kushlinsporttherapy.co.il"`. זה placeholder. אם זה האימייל האמיתי — להשאיר; אחרת להחליף.
+- [ ] **תחום מותאם** — ב-`astro.config.mjs` וב-`src/content/site/brand.json` מוגדר `https://sporttherapy.netlify.app`. לעדכן לתחום הקבוע (למשל `kushlinsporttherapy.co.il`) ברגע שהוא מוכן — זה משפיע על sitemap, canonical URLs, Schema.org, og:image.
 
 ## 3. פריסה
 
@@ -37,3 +37,8 @@
 - [ ] תמונה שנייה של טום למקטעים שכרגע משתמשים ב-`tom-about.jpg` מחדש.
 - [ ] favicon מותאם אישית (כרגע SVG מינימליסטי עם S טורקיז). אם רוצה אייקון מהלוגו, שווה ליצור גרסת PNG מרובעת.
 - [ ] וידאו קצר ב-hero (אופציונלי, לא חוסם) — יכול להחליף את תמונת ה-hero הסטטית.
+
+## 6. עריכת תוכן עתידית
+
+- כל הטקסטים באתר מנוהלים דרך קבצי JSON ב-`src/content/site/`. ראה `EDIT-CONTENT.md` בשורש הפרויקט למדריך מלא.
+- תוכן המאמרים עצמם נערך בנפרד — `src/content/articles/*.md`.
