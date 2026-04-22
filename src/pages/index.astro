@@ -1,35 +1,117 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { whatsappLink } from "../data/site";
+import { services } from "../data/services";
 ---
 <BaseLayout
   title="עמוד הבית"
-  description="SportTherapy — Tom Kushlin. ספורטתרפיה מתקדמת: דיקור יבש, עיסוי רפואי, שיקום ספורט ותרגול אישי. רמת גן ותל אביב."
+  description="SportTherapy — Tom Kushlin. אבחון מדויק של מקור הכאב, לא רק של הסימפטום. דיקור יבש, עיסוי רפואי, שיקום ספורט ותרגול אישי. רמת גן ותל אביב."
   transparentOverHero={true}
   preloadHero="/images/tom-hero.jpg"
 >
+  <!-- HERO -->
   <section class="relative min-h-[100svh] w-full overflow-hidden bg-ink">
     <img
       src="/images/tom-hero.jpg"
-      alt="טום קושלין — ספורטתרפיסט"
+      alt=""
+      role="presentation"
       class="absolute inset-0 h-full w-full object-cover object-center ken-burns"
       fetchpriority="high"
       decoding="async"
     />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70 md:bg-gradient-to-l md:from-black/60 md:via-black/20 md:to-transparent"></div>
-    <div class="relative z-10 flex min-h-[100svh] items-end pb-[14vh] pt-28">
-      <div class="mx-auto w-full max-w-content px-5 sm:px-8 text-white text-right">
-        <p class="eyebrow-label text-teal/90 mb-5">SPORT THERAPY · TOM KUSHLIN</p>
-        <h1 class="hero-headline max-w-[640px] ms-auto">
-          הכאב לא חייב<br />להיות חלק מהחיים
-        </h1>
-        <p class="mt-6 max-w-[540px] ms-auto body-prose text-white/85">
-          Placeholder hero — full home page lands in Phase 2.
-        </p>
+
+    <!-- Mobile: vertical gradient (text is full-width at bottom).
+         Desktop: horizontal-ish gradient darkening the right (RTL text) side. -->
+    <div
+      class="absolute inset-0 md:hidden"
+      style="background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.15) 100%);"
+    ></div>
+    <div
+      class="absolute inset-0 hidden md:block"
+      style="background: linear-gradient(to left, rgba(15,20,25,0.55) 0%, rgba(15,20,25,0.25) 35%, rgba(15,20,25,0) 55%);"
+    ></div>
+
+    <div class="relative z-10 flex min-h-[100svh] flex-col justify-end pb-[14vh] pt-28 md:pt-0">
+      <div class="mx-auto w-full max-w-content px-5 sm:px-8">
+        <div class="md:ms-auto md:max-w-[560px] text-white text-right">
+          <p class="eyebrow-label text-teal/95 mb-5 md:mb-6">
+            SPORT THERAPY · TOM KUSHLIN
+          </p>
+          <h1 class="hero-headline">
+            הכאב לא חייב<br />להיות חלק מהחיים
+          </h1>
+          <p class="mt-6 body-prose max-w-[520px] ms-auto text-white/90 leading-[1.65]">
+            אבחון מדויק של מקור הכאב — לא רק של הסימפטום.<br />
+            טיפול בגישה ייחודית המשלבת מגע, נשימה ותנועה.
+          </p>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end sm:gap-4">
+            <a href="/booking" class="btn btn-primary">
+              להיפטר מהכאב עכשיו
+              <span aria-hidden="true" class="text-lg">←</span>
+            </a>
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener"
+              class="btn btn-ghost"
+            >
+              שליחת הודעה בוואטסאפ
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="py-24 text-center">
-    <p class="body-prose">Phase 1 scaffold — nav, layout, footer in place.</p>
+  <!-- POST-HERO STATEMENT SECTION -->
+  <section class="bg-cream">
+    <div class="mx-auto max-w-[720px] px-5 sm:px-8 py-32 md:py-40">
+      <div class="fade-up">
+        <p class="eyebrow-label text-teal-deep mb-8 text-center">גישה</p>
+        <h2 class="section-h2 text-center mb-10">
+          הגוף מדבר בשפה שלו.<br class="hidden sm:block" />
+          <span> אני מתרגם.</span>
+        </h2>
+
+        <div class="body-prose text-ink-soft space-y-6 leading-[1.8]">
+          <p>
+            מטפל אחד מחפש איפה כואב. אחר מחפש למה. אני עובד בשיטה השנייה.
+          </p>
+          <p>
+            אחרי חמש שנים של עבודה עם מאות מטופלים — ספורטאים, רצים, יושבים מול מחשב, אמהות, אנשים שלא מפסיקים לזוז ואנשים שלא זוכרים מתי בפעם האחרונה הם כן זזו — הבנתי דבר אחד: כאב שלא עובר הוא לא באשמת הגוף. הוא סימן שלא הקשיבו לגוף מספיק עמוק.
+          </p>
+        </div>
+
+        <div class="mt-10 text-center">
+          <a
+            href="/about"
+            class="inline-flex items-center gap-2 text-ink hover:text-teal-deep transition-colors border-b border-teal pb-1"
+          >
+            <span>קרא את הסיפור המלא</span>
+            <span aria-hidden="true">←</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub-hint to explore services -->
+    <div class="mx-auto max-w-content px-5 sm:px-8 pb-24">
+      <hr class="hairline mb-10" />
+      <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm display-serif uppercase tracking-[0.2em] text-ink-soft">
+        {
+          services.map((s) => (
+            <li>
+              <a
+                href={`/services#${s.slug}`}
+                class="hover:text-teal-deep transition-colors"
+              >
+                {s.titleEn}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </section>
 </BaseLayout>
