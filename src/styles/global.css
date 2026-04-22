@@ -329,6 +329,12 @@ select {
     0 4px 8px rgba(15, 20, 25, 0.06),
     0 12px 32px rgba(15, 20, 25, 0.05);
 }
+.card-base.card-static:hover {
+  transform: none;
+  box-shadow:
+    0 1px 3px rgba(15, 20, 25, 0.04),
+    0 4px 12px rgba(15, 20, 25, 0.03);
+}
 @media (max-width: 767px) {
   .card-base {
     padding: 28px;

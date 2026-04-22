@@ -153,7 +153,7 @@ const hotspots: Record<string, Hotspot> = {
         <!-- Empty / default state -->
         <div
           id="body-map-empty"
-          class="border border-hairline bg-paper p-8 md:p-10 text-center"
+          class="card-base card-static text-center"
         >
           <p class="eyebrow-label text-teal-deep mb-4">איפה כואב?</p>
           <p class="body-prose text-ink-soft leading-[1.75]">
@@ -164,7 +164,7 @@ const hotspots: Record<string, Hotspot> = {
         <!-- Region content templates (hidden; JS populates by reading JSON inline) -->
         <article
           id="body-map-content"
-          class="hidden border border-hairline bg-paper p-8 md:p-10"
+          class="card-base card-static hidden"
           aria-live="polite"
         >
           <p class="eyebrow-label text-teal-deep mb-3" data-field="label"></p>

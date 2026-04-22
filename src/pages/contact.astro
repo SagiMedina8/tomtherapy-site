@@ -20,7 +20,7 @@ import contact from "../content/site/contact.json";
         </div>
 
         <!-- Primary: WhatsApp -->
-        <div class="border border-hairline bg-paper p-6 md:p-8">
+        <div class="card-base card-static">
           <p class="eyebrow-label text-teal-deep mb-3">{contact.whatsapp.eyebrow}</p>
           <h2 class="section-h3 font-bold mb-3">{contact.whatsapp.title}</h2>
           <p class="text-sm text-ink-soft mb-5 leading-relaxed">
@@ -97,7 +97,7 @@ import contact from "../content/site/contact.json";
           method="POST"
           data-netlify="true"
           netlify-honeypot="bot-field"
-          class="bg-paper border border-hairline p-6 md:p-8 space-y-5"
+          class="card-base card-static space-y-5"
         >
           <input type="hidden" name="form-name" value="contact" />
           <p class="hidden">
