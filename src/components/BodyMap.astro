@@ -18,13 +18,13 @@ const hotspots: Record<string, Hotspot> = {
   elbow:        { cx: 155, cy: 200, lx: 177, ly: 203, anchor: "start" },
   wrist:        { cx: 170, cy: 270, lx: 192, ly: 273, anchor: "start" },
   "lower-back": { cx: 100, cy: 235, lx: 78,  ly: 238, anchor: "end"   },
-  hip:          { cx: 125, cy: 270, lx: 148, ly: 258, anchor: "start" },
-  groin:        { cx: 100, cy: 285, lx: 78,  ly: 296, anchor: "end"   },
-  hamstring:    { cx: 75,  cy: 320, lx: 53,  ly: 323, anchor: "end"   },
-  knee:         { cx: 115, cy: 360, lx: 138, ly: 363, anchor: "start" },
-  shin:         { cx: 110, cy: 400, lx: 132, ly: 403, anchor: "start" },
-  calf:         { cx: 90,  cy: 410, lx: 68,  ly: 413, anchor: "end"   },
-  foot:         { cx: 115, cy: 478, lx: 138, ly: 493, anchor: "start" },
+  hip:          { cx: 125, cy: 260, lx: 150, ly: 252, anchor: "start" },
+  groin:        { cx: 100, cy: 290, lx: 76,  ly: 305, anchor: "end"   },
+  hamstring:    { cx: 72,  cy: 325, lx: 50,  ly: 335, anchor: "end"   },
+  knee:         { cx: 115, cy: 360, lx: 140, ly: 362, anchor: "start" },
+  shin:         { cx: 110, cy: 400, lx: 134, ly: 402, anchor: "start" },
+  calf:         { cx: 88,  cy: 415, lx: 64,  ly: 418, anchor: "end"   },
+  foot:         { cx: 115, cy: 478, lx: 140, ly: 490, anchor: "start" },
 };
 ---
 <section
@@ -43,10 +43,20 @@ const hotspots: Record<string, Hotspot> = {
     <!-- Map + panel grid -->
     <div class="grid gap-10 md:gap-12 md:grid-cols-[minmax(200px,320px)_1fr] items-start fade-up">
       <!-- Body SVG -->
-      <div class="flex justify-center md:sticky md:top-28">
+      <div class="flex flex-col items-center md:sticky md:top-28">
+        <!-- Active region indicator (visible on all screens, crucial for mobile) -->
+        <div class="mb-3 md:mb-4 text-center min-h-[36px] flex items-center justify-center">
+          <span
+            id="body-map-active-label"
+            class="font-serif text-[22px] md:text-[24px] leading-tight text-ink-soft/60 transition-opacity duration-200"
+            data-default-text="בחר אזור בגוף"
+          >
+            בחר אזור בגוף
+          </span>
+        </div>
         <svg
           viewBox="-60 -10 320 520"
-          class="w-full max-w-[200px] md:max-w-[280px] h-auto"
+          class="w-full max-w-[220px] md:max-w-[280px] h-auto"
           role="img"
           aria-label="בחר אזור בגוף"
           xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +103,15 @@ const hotspots: Record<string, Hotspot> = {
                   cx: 100, cy: 250, lx: 120, ly: 253, anchor: "start" as Anchor,
                 };
                 return (
-                  <g class="body-hotspot" data-region-id={r.id}>
+                  <g class="body-hotspot" data-region-id={r.id} data-region-label={r.label}>
+                    <!-- Generous transparent touch target -->
+                    <circle
+                      class="body-hotspot-touch"
+                      cx={h.cx}
+                      cy={h.cy}
+                      r="28"
+                      fill="transparent"
+                    />
                     <circle
                       class="body-hotspot-ring"
                       cx={h.cx}
@@ -198,14 +216,21 @@ const hotspots: Record<string, Hotspot> = {
       transition: opacity 200ms ease;
     }
     .body-hotspot-label {
-      font-family: 'Assistant', system-ui, sans-serif;
-      font-size: 13px;
-      font-weight: 400;
+      font-family: 'Heebo', system-ui, sans-serif;
+      font-size: 11px;
+      font-weight: 500;
       fill: var(--ink-soft);
       pointer-events: none;
+      /* Cream halo for legibility against body lines and cream bg */
+      stroke: var(--cream);
+      stroke-width: 3px;
+      paint-order: stroke fill;
       transition:
         fill 200ms ease,
         font-weight 200ms ease;
+    }
+    .body-hotspot-touch {
+      cursor: pointer;
     }
     .body-hotspot:hover .body-hotspot-dot,
     .body-hotspot:focus-visible .body-hotspot-dot,
@@ -220,7 +245,7 @@ const hotspots: Record<string, Hotspot> = {
     .body-hotspot:focus-visible .body-hotspot-label,
     .body-hotspot.is-active .body-hotspot-label {
       fill: var(--teal-deep);
-      font-weight: 600;
+      font-weight: 700;
     }
     .body-hotspot:focus-visible {
       outline: none;
@@ -228,11 +253,16 @@ const hotspots: Record<string, Hotspot> = {
     .body-hotspot:focus-visible .body-hotspot-ring {
       opacity: 1;
     }
-    /* Hide labels on small screens — SVG is tiny there and labels crowd */
+    /* Smaller labels on mobile — still readable with halo */
     @media (max-width: 767px) {
       .body-hotspot-label {
-        display: none;
+        font-size: 9.5px;
+        stroke-width: 2.5px;
       }
+    }
+    #body-map-active-label.is-active {
+      color: var(--teal-deep);
+      opacity: 1;
     }
     /* Fade transition for panel content swap */
     #body-map-content {
@@ -270,6 +300,7 @@ const hotspots: Record<string, Hotspot> = {
       const emptyState = document.getElementById("body-map-empty");
       const contentEl = document.getElementById("body-map-content");
       const titleEl = document.getElementById("body-map-title");
+      const activeLabelEl = document.getElementById("body-map-active-label");
 
       const hotspots = Array.from(
         document.querySelectorAll<SVGGElement>(".body-hotspot"),
@@ -293,6 +324,12 @@ const hotspots: Record<string, Hotspot> = {
         // Active hotspot highlight
         for (const h of hotspots) {
           h.classList.toggle("is-active", h.dataset.regionId === id);
+        }
+
+        // Update the active region name above the SVG
+        if (activeLabelEl) {
+          activeLabelEl.textContent = region.label;
+          activeLabelEl.classList.add("is-active");
         }
 
         // Fade-swap content
@@ -345,16 +382,46 @@ const hotspots: Record<string, Hotspot> = {
         }, 160);
       }
 
+      let activeSelectedId: string | null = null;
+
+      const wrappedSelectRegion = selectRegion;
+      function selectAndRemember(id: string) {
+        activeSelectedId = id;
+        wrappedSelectRegion(id);
+      }
+
       for (const h of hotspots) {
         h.addEventListener("click", () => {
           const id = h.dataset.regionId;
-          if (id) selectRegion(id);
+          if (id) selectAndRemember(id);
         });
         h.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             const id = h.dataset.regionId;
-            if (id) selectRegion(id);
+            if (id) selectAndRemember(id);
+          }
+        });
+        // Desktop hover preview on active label
+        h.addEventListener("mouseenter", () => {
+          const label = h.dataset.regionLabel;
+          if (label && activeLabelEl) {
+            activeLabelEl.textContent = label;
+            activeLabelEl.classList.add("is-active");
+          }
+        });
+        h.addEventListener("mouseleave", () => {
+          if (!activeLabelEl) return;
+          if (activeSelectedId) {
+            const region = byId.get(activeSelectedId);
+            if (region) {
+              activeLabelEl.textContent = region.label;
+              activeLabelEl.classList.add("is-active");
+            }
+          } else {
+            activeLabelEl.textContent =
+              activeLabelEl.dataset.defaultText || "";
+            activeLabelEl.classList.remove("is-active");
           }
         });
       }

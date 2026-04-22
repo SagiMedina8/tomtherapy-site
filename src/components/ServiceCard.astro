@@ -3,35 +3,31 @@ import type { Service } from "../data/services";
 
 interface Props {
   service: Service;
-  variant: 1 | 2 | 3 | 4;
+  variant?: 1 | 2 | 3 | 4;
   index?: number;
 }
-const { service, variant, index } = Astro.props;
+const { service, index } = Astro.props;
 const s = service;
 const number = String((index ?? 0) + 1).padStart(2, "0");
 ---
 <article
   id={s.slug}
-  class:list={[
-    "group relative overflow-hidden bg-paper border border-hairline h-full flex flex-col fade-up",
-    variant === 1 && "border-t-2 border-t-teal",
-  ]}
+  class="card-base service-card group flex flex-col h-full overflow-hidden fade-up"
 >
-  {
-    variant === 4 && (
-      <span
-        class="pointer-events-none absolute top-4 start-6 font-display font-light text-[140px] leading-none text-ink/[0.06] select-none"
-        aria-hidden="true"
-      >
-        {number}
-      </span>
-    )
-  }
+  <!-- Large background number (decorative) -->
+  <span
+    class="service-card-number pointer-events-none select-none"
+    aria-hidden="true"
+  >
+    {number}
+  </span>
 
-  <div class="relative p-8 md:p-10 flex flex-col flex-1 text-right">
-    <p class="eyebrow-label text-teal-deep mb-4">{s.eyebrow}</p>
-    <h3 class="section-h3 mb-4 font-bold">{s.titleHe}</h3>
-    <p class="body-prose text-ink-soft mb-8 leading-[1.75] flex-1">{s.description}</p>
+  <div class="relative z-10 flex flex-col flex-1 text-right">
+    <span class="card-pill card-pill-en mb-5 self-start">{s.eyebrow}</span>
+    <h3 class="card-title mb-4">{s.titleHe}</h3>
+    <p class="card-body-text flex-1">{s.description}</p>
+
+    <hr class="card-divider" />
 
     <a
       href={s.linkHref}
@@ -42,3 +38,21 @@ const number = String((index ?? 0) + 1).padStart(2, "0");
     </a>
   </div>
 </article>
+
+<style>
+  .service-card {
+    border-top: 2px solid var(--teal);
+  }
+  .service-card-number {
+    position: absolute;
+    top: 12px;
+    left: 24px;
+    font-family: 'Fraunces', serif;
+    font-weight: 200;
+    font-size: 96px;
+    line-height: 1;
+    color: var(--teal);
+    opacity: 0.08;
+    z-index: 0;
+  }
+</style>

@@ -18,7 +18,7 @@ export default {
       fontFamily: {
         serif: ['"Frank Ruhl Libre"', "serif"],
         display: ['"Fraunces"', "serif"],
-        sans: ['"Assistant"', "system-ui", "sans-serif"],
+        sans: ['"Heebo"', "system-ui", "sans-serif"],
       },
       maxWidth: {
         prose: "680px",

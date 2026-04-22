@@ -6,17 +6,20 @@ interface Props {
 const { article } = Astro.props;
 const { title, tag, excerpt, readingTime } = article.data;
 ---
-<article class="group relative bg-paper border border-hairline p-8 md:p-10 transition-colors hover:border-teal fade-up">
-  <p class="eyebrow-label text-teal-deep mb-5">{tag}</p>
-  <h3 class="section-h3 font-bold mb-4 leading-[1.2]">
+<article class="card-base group flex flex-col fade-up">
+  <span class="card-pill mb-5 self-start">{tag}</span>
+
+  <h3 class="card-title mb-4">
     <a href={`/articles/${article.slug}`} class="hover:text-teal-deep transition-colors">
       {title}
     </a>
   </h3>
-  <p class="body-prose text-ink-soft mb-6 leading-[1.7]">
-    {excerpt}
-  </p>
-  <div class="flex items-center justify-between gap-4 pt-4 border-t border-hairline">
+
+  <p class="card-body-text flex-1">{excerpt}</p>
+
+  <hr class="card-divider" />
+
+  <div class="flex items-center justify-between gap-4">
     <a
       href={`/articles/${article.slug}`}
       class="inline-flex items-center gap-2 text-sm font-semibold text-ink group-hover:text-teal-deep transition-colors"
@@ -24,6 +27,6 @@ const { title, tag, excerpt, readingTime } = article.data;
       <span class="border-b border-teal pb-0.5">קרא</span>
       <span aria-hidden="true">←</span>
     </a>
-    <span class="text-xs text-ink-soft" dir="ltr">{readingTime}</span>
+    <span class="card-footer-text" dir="ltr">{readingTime}</span>
   </div>
 </article>

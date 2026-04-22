@@ -23,7 +23,7 @@ html,
 body {
   background: var(--cream);
   color: var(--ink);
-  font-family: 'Assistant', system-ui, sans-serif;
+  font-family: 'Heebo', system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
@@ -89,7 +89,7 @@ body {
   gap: 0.5rem;
   padding: 0.875rem 1.5rem;
   border-radius: 2px;
-  font-family: 'Assistant', sans-serif;
+  font-family: 'Heebo', sans-serif;
   font-weight: 600;
   font-size: 0.9375rem;
   line-height: 1;
@@ -306,6 +306,81 @@ select {
   height: 1px;
   background: var(--hairline);
   border: 0;
+}
+
+/* Unified card design (services / articles / testimonials / body-map regions) */
+.card-base {
+  position: relative;
+  background: #FBF8F1;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow:
+    0 1px 3px rgba(15, 20, 25, 0.04),
+    0 4px 12px rgba(15, 20, 25, 0.03);
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease;
+}
+.card-base:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 8px rgba(15, 20, 25, 0.06),
+    0 12px 32px rgba(15, 20, 25, 0.05);
+}
+@media (max-width: 767px) {
+  .card-base {
+    padding: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-base:hover {
+    transform: none;
+  }
+}
+
+.card-pill {
+  display: inline-block;
+  background: var(--teal-wash);
+  color: var(--teal-deep);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: 'Heebo', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+.card-pill-en {
+  font-family: 'Fraunces', serif;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.card-title {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-weight: 700;
+  font-size: clamp(1.375rem, 0.8vw + 1rem, 1.75rem);
+  color: var(--ink);
+  line-height: 1.2;
+}
+.card-body-text {
+  font-family: 'Heebo', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+.card-divider {
+  height: 1px;
+  background: var(--hairline);
+  border: 0;
+  margin-block: 24px;
+}
+.card-footer-text {
+  font-family: 'Heebo', sans-serif;
+  font-size: 13px;
+  opacity: 0.7;
 }
 
 /* iOS tap flash off */
