@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from "astro:content";
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+const { article } = Astro.props;
+const { title, tag, excerpt, readingTime } = article.data;
+---
+<article class="group relative bg-paper border border-hairline p-8 md:p-10 transition-colors hover:border-teal fade-up">
+  <p class="eyebrow-label text-teal-deep mb-5">{tag}</p>
+  <h3 class="section-h3 font-bold mb-4 leading-[1.2]">
+    <a href={`/articles/${article.slug}`} class="hover:text-teal-deep transition-colors">
+      {title}
+    </a>
+  </h3>
+  <p class="body-prose text-ink-soft mb-6 leading-[1.7]">
+    {excerpt}
+  </p>
+  <div class="flex items-center justify-between gap-4 pt-4 border-t border-hairline">
+    <a
+      href={`/articles/${article.slug}`}
+      class="inline-flex items-center gap-2 text-sm font-semibold text-ink group-hover:text-teal-deep transition-colors"
+    >
+      <span class="border-b border-teal pb-0.5">קרא</span>
+      <span aria-hidden="true">←</span>
+    </a>
+    <span class="text-xs text-ink-soft" dir="ltr">{readingTime}</span>
+  </div>
+</article>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import { getCollection } from "astro:content";
+
+const articles = (await getCollection("articles")).sort(
+  (a, b) =>
+    new Date(b.data.publishedAt).getTime() -
+    new Date(a.data.publishedAt).getTime(),
+);
+---
+<BaseLayout
+  title="מאמרים"
+  description="הבנה של הגוף היא חצי מהדרך להחלמה. מאמרים על כאבי גב תחתון, דיקור יבש, נקודות טריגר ופאשיה — מה שקורה מתחת לפני השטח."
+>
+  <PageHeader
+    eyebrow="ידע מקצועי"
+    title="מאמרים"
+    lead="הבנה של הגוף היא חצי מהדרך להחלמה. שלושה כתבים על מה שקורה מתחת לפני השטח."
+  />
+
+  <section class="mx-auto max-w-content px-5 sm:px-8 pb-24">
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 md:gap-8">
+      {articles.map((article) => <ArticleCard article={article} />)}
+    </div>
+  </section>
+</BaseLayout>

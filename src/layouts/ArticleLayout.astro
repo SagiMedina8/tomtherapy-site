@@ -1,0 +1,68 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { whatsappLink } from "../data/site";
+
+interface Props {
+  title: string;
+  tag: string;
+  readingTime: string;
+  excerpt: string;
+}
+const { title, tag, readingTime, excerpt } = Astro.props;
+---
+<BaseLayout title={title} description={excerpt}>
+  <article class="pb-24">
+    <!-- Breadcrumb + header -->
+    <header class="mx-auto max-w-[720px] px-5 sm:px-8 pt-10 md:pt-16 pb-8 text-right">
+      <nav aria-label="נתיב ניווט" class="mb-6 text-sm text-ink-soft">
+        <a href="/articles" class="hover:text-teal-deep transition-colors">מאמרים</a>
+        <span aria-hidden="true" class="mx-2 text-hairline">/</span>
+        <span class="text-ink-soft/80 line-clamp-1 inline">{title}</span>
+      </nav>
+
+      <p class="eyebrow-label text-teal-deep mb-5">{tag}</p>
+      <h1 class="section-h2 mb-5">{title}</h1>
+      <p class="text-sm text-ink-soft" dir="rtl">
+        <span dir="ltr" class="inline-block tabular-nums">{readingTime}</span>
+      </p>
+    </header>
+
+    <hr class="mx-auto max-w-[720px] hairline" />
+
+    <!-- Prose body -->
+    <div class="mx-auto max-w-[720px] px-5 sm:px-8 pt-10 text-right article-prose">
+      <slot />
+    </div>
+
+    <!-- End CTA -->
+    <section class="mx-auto max-w-[720px] px-5 sm:px-8 mt-16 text-center">
+      <div class="border border-hairline bg-paper p-8 md:p-10">
+        <h2 class="section-h3 font-bold mb-4">רוצה לבדוק אם זה מה שקורה אצלך?</h2>
+        <p class="body-prose text-ink-soft mb-6 leading-[1.7]">
+          אבחון ראשוני הוא השלב הראשון. 45 דקות של שאלות, בדיקה ומיפוי.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="/booking" class="btn btn-primary">
+            <span>קבע אבחון</span>
+            <span aria-hidden="true">←</span>
+          </a>
+          <a
+            href={whatsappLink()}
+            target="_blank"
+            rel="noopener"
+            class="btn btn-ghost-ink"
+          >
+            שליחת הודעה בוואטסאפ
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Medical disclaimer -->
+    <footer class="mx-auto max-w-[720px] px-5 sm:px-8 mt-10 text-center">
+      <p class="text-xs text-ink-soft/70 leading-relaxed">
+        <strong class="font-semibold">הערה רפואית:</strong> מאמר זה נועד להרחבת ידע בלבד ואינו מהווה ייעוץ רפואי. לאבחון ולטיפול יש לפנות למטפל מוסמך.
+      </p>
+    </footer>
+  </article>
+</BaseLayout>
