@@ -3,15 +3,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import TestimonialCard from "../components/TestimonialCard.astro";
 import { testimonials } from "../data/testimonials";
+import testimonialsPage from "../content/site/testimonials.json";
 ---
 <BaseLayout
-  title="המלצות"
-  description="מטופלים מספרים — רצים, ספורטאים, אנשי משרד. הם הגיעו עם כאב שלא עבר, ויצאו עם כלים."
+  title={testimonialsPage.seo.title}
+  description={testimonialsPage.seo.description}
 >
   <PageHeader
-    eyebrow="המלצות"
-    title="מה אומרים אחרי שהטיפול עבד"
-    lead="אוסף של עדויות ממטופלים שעברו תהליך. כל אחד והסיפור שלו — אבל המכנה המשותף תמיד אותו דבר: הכאב לא חזר."
+    eyebrow={testimonialsPage.header.eyebrow}
+    title={testimonialsPage.header.title}
+    lead={testimonialsPage.header.lead}
   />
 
   <section class="mx-auto max-w-content px-5 sm:px-8 pb-24">
@@ -21,8 +22,8 @@ import { testimonials } from "../data/testimonials";
   </section>
 
   <section class="mx-auto max-w-prose px-5 sm:px-8 pb-24 text-center">
-    <a href="/booking" class="btn btn-ghost-ink">
-      <span>להתחיל את התהליך</span>
+    <a href={testimonialsPage.cta.href} class="btn btn-ghost-ink">
+      <span>{testimonialsPage.cta.text}</span>
       <span aria-hidden="true">←</span>
     </a>
   </section>

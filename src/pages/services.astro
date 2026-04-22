@@ -4,17 +4,18 @@ import PageHeader from "../components/PageHeader.astro";
 import ServiceCard from "../components/ServiceCard.astro";
 import { services } from "../data/services";
 import { whatsappLink } from "../data/site";
+import servicesPage from "../content/site/services.json";
 
 const variants = [1, 2, 3, 4] as const;
 ---
 <BaseLayout
-  title="שירותים"
-  description="ארבעה כלים, שילוב אחד: דיקור יבש, עיסוי רפואי, שיקום ספורט ותרגול מותאם אישית. כל טיפול נבנה סביב המטופל — לא סביב הטכניקה."
+  title={servicesPage.seo.title}
+  description={servicesPage.seo.description}
 >
   <PageHeader
-    eyebrow="שירותים"
-    title="ארבעה כלים. שילוב אחד."
-    lead="הבחירה בכלי הנכון תלויה במה שהגוף שלך צריך באותו רגע — לא בטכניקה שהמטפל הכי אוהב. כל טיפול משלב בין השיטות האלה במינונים שונים."
+    eyebrow={servicesPage.header.eyebrow}
+    title={servicesPage.header.title}
+    lead={servicesPage.header.lead}
   />
 
   <section class="mx-auto max-w-content px-5 sm:px-8 pb-24">
@@ -30,14 +31,14 @@ const variants = [1, 2, 3, 4] as const;
   <!-- CTA bar -->
   <section class="bg-ink text-cream py-20">
     <div class="mx-auto max-w-content px-5 sm:px-8 text-center">
-      <p class="eyebrow-label text-teal mb-5">השלב הבא</p>
-      <h2 class="section-h2 mb-6">לא בטוח איזה טיפול מתאים לך?</h2>
+      <p class="eyebrow-label text-teal mb-5">{servicesPage.ctaBar.eyebrow}</p>
+      <h2 class="section-h2 mb-6">{servicesPage.ctaBar.headline}</h2>
       <p class="body-prose text-cream/80 max-w-prose mx-auto mb-8">
-        האבחון הראשוני הוא מפגש של שאלות — לא של החלטות. נבין קודם מה קורה, ורק אחר כך נבחר בכלים.
+        {servicesPage.ctaBar.body}
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="/booking" class="btn btn-primary">
-          <span>קבע אבחון</span>
+          <span>{servicesPage.ctaBar.ctaPrimaryText}</span>
           <span aria-hidden="true">←</span>
         </a>
         <a
@@ -46,7 +47,7 @@ const variants = [1, 2, 3, 4] as const;
           rel="noopener"
           class="btn btn-ghost"
         >
-          שאלה קצרה בוואטסאפ
+          {servicesPage.ctaBar.ctaSecondaryText}
         </a>
       </div>
     </div>

@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import { getCollection } from "astro:content";
+import articleIndex from "../../content/site/articleIndex.json";
 
 const articles = (await getCollection("articles")).sort(
   (a, b) =>
@@ -11,13 +12,13 @@ const articles = (await getCollection("articles")).sort(
 );
 ---
 <BaseLayout
-  title="מאמרים"
-  description="הבנה של הגוף היא חצי מהדרך להחלמה. מאמרים על כאבי גב תחתון, דיקור יבש, נקודות טריגר ופאשיה — מה שקורה מתחת לפני השטח."
+  title={articleIndex.seo.title}
+  description={articleIndex.seo.description}
 >
   <PageHeader
-    eyebrow="ידע מקצועי"
-    title="מאמרים"
-    lead="הבנה של הגוף היא חצי מהדרך להחלמה. שלושה כתבים על מה שקורה מתחת לפני השטח."
+    eyebrow={articleIndex.header.eyebrow}
+    title={articleIndex.header.title}
+    lead={articleIndex.header.lead}
   />
 
   <section class="mx-auto max-w-content px-5 sm:px-8 pb-24">

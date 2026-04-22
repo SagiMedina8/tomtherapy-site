@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import about from "../content/site/about.json";
 ---
 <BaseLayout
-  title="אודות"
-  description="טום קושלין — ספורטתרפיסט. חמש שנים של עבודה עם גוף האדם. אבחון מדויק של מקור הכאב, לא רק של הסימפטום. גישה ייחודית המשלבת דיקור יבש, עבודה על פאשיה ותרגול אישי."
+  title={about.seo.title}
+  description={about.seo.description}
 >
   <!-- HERO -->
   <section class="mx-auto max-w-content px-5 sm:px-8 pt-16 md:pt-24 pb-12 md:pb-20">
@@ -11,7 +12,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div class="md:order-2 fade-up">
         <img
           src="/images/tom-about.jpg"
-          alt="טום קושלין — צילום פרופיל"
+          alt={about.hero.imageAlt}
           class="w-full h-auto aspect-[4/5] object-cover"
           loading="eager"
           decoding="async"
@@ -19,10 +20,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
 
       <div class="md:order-1 text-right fade-up">
-        <p class="eyebrow-label text-teal-deep mb-5">על המטפל</p>
-        <h1 class="section-h2 mb-6">טום קושלין<br />· ספורטתרפיסט</h1>
+        <p class="eyebrow-label text-teal-deep mb-4">{about.hero.eyebrow}</p>
+        <h1 class="section-h2 mb-6">{about.hero.headlineLine1}<br />{about.hero.headlineLine2}</h1>
         <p class="font-serif text-[22px] md:text-[26px] leading-[1.4] text-ink-soft">
-          חמש שנים של עבודה עם גוף האדם לימדו אותי שרוב הכאבים הכרוניים הם שאלה שלא שאלו. אני שואל אותה.
+          {about.hero.lead}
         </p>
       </div>
     </div>
@@ -30,36 +31,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   <!-- LONG READ -->
   <section class="mx-auto max-w-prose px-5 sm:px-8 py-16 md:py-24 text-right prose-body">
-    <div class="fade-up">
-      <h2 class="section-h3 font-bold mt-0 mb-4">למה אני עושה את זה</h2>
-      <p class="body-prose text-ink-soft leading-[1.8] mb-6">
-        נכנסתי לתחום בגלל פציעה משלי שאף אחד לא הצליח לפתור. עברתי בין מטפלים, שיטות, הבטחות — וכל אחד התעקש על הטכניקה שלו במקום על הגוף שלי. בסופו של דבר מצאתי מטפל אחד שלא שאל "איפה כואב" אלא "מתי זה התחיל, איך אתה יושב, איך אתה נושם." תוך שבועיים הכאב נעלם. הבנתי שזה מה שאני רוצה לעשות.
-      </p>
-    </div>
-
-    <div class="fade-up mt-12">
-      <h2 class="section-h3 font-bold mb-4">הגישה</h2>
-      <p class="body-prose text-ink-soft leading-[1.8] mb-5">
-        כאב הוא סימפטום. הוא אף פעם לא הבעיה עצמה.
-      </p>
-      <p class="body-prose text-ink-soft leading-[1.8] mb-5">
-        כאב גב תחתון יכול להגיע מהסרעפת, ממכופפי הירך, ממתח רגשי שנאגר בכתפיים במשך שנים. כאב כתף יכול להתחיל מצלקת ניתוחית ישנה בבטן. כאב ברך יכול לנבוע ממוביליות קרסול שנעלמה בלי שהרגשת.
-      </p>
-      <p class="body-prose text-ink-soft leading-[1.8]">
-        העבודה שלי היא למפות את שרשרת הסיבות — לא להסתפק בתוצאה שלה.
-      </p>
-    </div>
-
-    <div class="fade-up mt-12">
-      <h2 class="section-h3 font-bold mb-4">הבידול</h2>
-      <p class="body-prose text-ink-soft leading-[1.8]">
-        אני לא מחליף טכניקה בטכניקה. אני משלב שלושה כלים — <span dir="ltr">Dry Needling</span> לשחרור נקודות טריגר עמוקות, עבודת מגע ישירה על הפאשיה והשרירים, ותרגול ממוקד שנבנה אישית — ומתאים את שלושתם לכל מטופל לפי מה שהגוף שלו צריך באותו רגע.
-      </p>
-    </div>
+    {
+      about.sections.map((section, i) => (
+        <div class={`fade-up ${i > 0 ? "mt-12" : ""}`}>
+          <h2 class={`section-h3 font-bold mb-4 ${i === 0 ? "mt-0" : ""}`}>{section.heading}</h2>
+          {section.paragraphs.map((p, j) => (
+            <p class={`body-prose text-ink-soft leading-[1.8] ${j < section.paragraphs.length - 1 ? "mb-5" : ""}`}>
+              {p}
+            </p>
+          ))}
+        </div>
+      ))
+    }
 
     <div class="fade-up mt-16 text-center">
-      <a href="/booking" class="btn btn-ghost-ink">
-        <span>לקביעת טיפול</span>
+      <a href={about.cta.href} class="btn btn-ghost-ink">
+        <span>{about.cta.text}</span>
         <span aria-hidden="true">←</span>
       </a>
     </div>

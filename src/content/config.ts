@@ -11,4 +11,12 @@ const articles = defineCollection({
   }),
 });
 
-export const collections = { articles };
+// Site content collection — all page text, as JSON data entries.
+// Not consumed via getCollection(); files are imported directly
+// (e.g., `import home from "../content/site/home.json"`).
+// Registered here so Astro treats it as a data collection, not content.
+const site = defineCollection({
+  type: "data",
+});
+
+export const collections = { articles, site };

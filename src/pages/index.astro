@@ -2,10 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { whatsappLink } from "../data/site";
 import { services } from "../data/services";
+import home from "../content/site/home.json";
 ---
 <BaseLayout
-  title="עמוד הבית"
-  description="SportTherapy — Tom Kushlin. אבחון מדויק של מקור הכאב, לא רק של הסימפטום. דיקור יבש, עיסוי רפואי, שיקום ספורט ותרגול אישי. רמת גן ותל אביב."
+  title={home.seo.title}
+  description={home.seo.description}
   transparentOverHero={true}
   preloadHero="/images/tom-hero.jpg"
 >
@@ -35,19 +36,19 @@ import { services } from "../data/services";
       <div class="mx-auto w-full max-w-content px-5 sm:px-8">
         <div class="md:ms-auto md:max-w-[560px] text-white text-right">
           <p class="eyebrow-label text-teal/95 mb-5 md:mb-6">
-            SPORT THERAPY · TOM KUSHLIN
+            {home.hero.eyebrow}
           </p>
           <h1 class="hero-headline">
-            הכאב לא חייב<br />להיות חלק מהחיים
+            {home.hero.headlineLine1}<br />{home.hero.headlineLine2}
           </h1>
           <p class="mt-6 body-prose max-w-[520px] ms-auto text-white/90 leading-[1.65]">
-            אבחון מדויק של מקור הכאב — לא רק של הסימפטום.<br />
-            טיפול בגישה ייחודית המשלבת מגע, נשימה ותנועה.
+            {home.hero.subheadLine1}<br />
+            {home.hero.subheadLine2}
           </p>
 
           <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end sm:gap-4">
             <a href="/booking" class="btn btn-primary">
-              להיפטר מהכאב עכשיו
+              {home.hero.ctaPrimaryText}
               <span aria-hidden="true" class="text-lg">←</span>
             </a>
             <a
@@ -56,7 +57,7 @@ import { services } from "../data/services";
               rel="noopener"
               class="btn btn-ghost"
             >
-              שליחת הודעה בוואטסאפ
+              {home.hero.ctaSecondaryText}
             </a>
           </div>
         </div>
@@ -68,27 +69,23 @@ import { services } from "../data/services";
   <section class="bg-cream">
     <div class="mx-auto max-w-[720px] px-5 sm:px-8 py-32 md:py-40">
       <div class="fade-up">
-        <p class="eyebrow-label text-teal-deep mb-8 text-center">גישה</p>
+        <p class="eyebrow-label text-teal-deep mb-8 text-center">{home.story.eyebrow}</p>
         <h2 class="section-h2 text-center mb-10">
-          הגוף מדבר בשפה שלו.<br class="hidden sm:block" />
-          <span> אני מתרגם.</span>
+          {home.story.headlineLine1}<br class="hidden sm:block" />
+          <span> {home.story.headlineLine2}</span>
         </h2>
 
         <div class="body-prose text-ink-soft space-y-6 leading-[1.8]">
-          <p>
-            מטפל אחד מחפש איפה כואב. אחר מחפש למה. אני עובד בשיטה השנייה.
-          </p>
-          <p>
-            אחרי חמש שנים של עבודה עם מאות מטופלים — ספורטאים, רצים, יושבים מול מחשב, אמהות, אנשים שלא מפסיקים לזוז ואנשים שלא זוכרים מתי בפעם האחרונה הם כן זזו — הבנתי דבר אחד: כאב שלא עובר הוא לא באשמת הגוף. הוא סימן שלא הקשיבו לגוף מספיק עמוק.
-          </p>
+          <p>{home.story.paragraph1}</p>
+          <p>{home.story.paragraph2}</p>
         </div>
 
         <div class="mt-10 text-center">
           <a
-            href="/about"
+            href={home.story.ctaLink}
             class="inline-flex items-center gap-2 text-ink hover:text-teal-deep transition-colors border-b border-teal pb-1"
           >
-            <span>קרא את הסיפור המלא</span>
+            <span>{home.story.ctaText}</span>
             <span aria-hidden="true">←</span>
           </a>
         </div>

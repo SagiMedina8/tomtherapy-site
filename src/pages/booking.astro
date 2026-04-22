@@ -2,15 +2,16 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import { site, whatsappLink } from "../data/site";
+import booking from "../content/site/booking.json";
 ---
 <BaseLayout
-  title="קביעת תור"
-  description="קבע תור אונליין ל-SportTherapy — בחר יום, שעה ומיקום (רמת גן או תל אביב)."
+  title={booking.seo.title}
+  description={booking.seo.description}
 >
   <PageHeader
-    eyebrow="קביעת תור"
-    title="בחר יום, שעה, ומיקום"
-    lead="תורים נפתחים עד חודשיים קדימה. אם השעה שאתה צריך לא פנויה — שלח לי הודעה בוואטסאפ ואמצא פתרון."
+    eyebrow={booking.header.eyebrow}
+    title={booking.header.title}
+    lead={booking.header.lead}
     compact
   />
 
@@ -18,7 +19,7 @@ import { site, whatsappLink } from "../data/site";
   <section class="mx-auto px-0 sm:px-5 md:px-8 pb-12">
     <div class="mx-auto w-full max-w-[900px]">
       <iframe
-        src="https://plannieapp.com/?name=tomkushsporttherapy"
+        src={booking.plannieUrl}
         loading="lazy"
         title="קביעת תור — SportTherapy"
         class="block w-full border-0 bg-paper"
@@ -39,20 +40,20 @@ import { site, whatsappLink } from "../data/site";
   <section class="mx-auto max-w-content px-5 sm:px-8 pb-24">
     <div class="mx-auto max-w-prose text-center fade-up">
       <p class="text-sm text-ink-soft mb-8">
-        לא עובד לך?
+        {booking.fallback.prefix}
         <a
           href={whatsappLink()}
           target="_blank"
           rel="noopener"
           class="border-b border-teal pb-0.5 hover:text-teal-deep transition-colors ms-2"
         >
-          שלח הודעה בוואטסאפ ←
+          {booking.fallback.linkText} ←
         </a>
       </p>
 
       <hr class="hairline mb-10" />
 
-      <h2 class="eyebrow-label text-teal-deep mb-6">שעות פעילות</h2>
+      <h2 class="eyebrow-label text-teal-deep mb-6">{booking.labels.hoursEyebrow}</h2>
       <ul class="space-y-2 text-sm max-w-sm mx-auto">
         {
           site.hours.map((h) => (
@@ -80,7 +81,7 @@ import { site, whatsappLink } from "../data/site";
               <p class="text-xs text-teal-deep eyebrow-label mb-2">{a.title}</p>
               <p class="text-ink">
                 {a.street}, {a.city}
-                {"note" in a && a.note && (
+                {a.note && (
                   <span class="block text-ink-soft/60 text-xs mt-1">
                     {a.note}
                   </span>

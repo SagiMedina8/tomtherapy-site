@@ -1,0 +1,41 @@
+{
+  "name": "SportTherapy · Tom Kushlin",
+  "url": "https://sporttherapy.netlify.app",
+  "whatsappNumber": "972503032316",
+  "whatsappDisplay": "+972 50-303-2316",
+  "whatsappDefaultMessage": "היי טום, הגעתי דרך האתר ואני מעוניין לקבוע טיפול",
+  "email": "tom@kushlinsporttherapy.co.il",
+  "ga4Id": "G-XXXXXXXXXX",
+  "tagline": "ספורטתרפיה מתקדמת · רמת גן & תל אביב",
+  "hours": [
+    { "day": "ראשון", "label": "תל אביב · Nana Home", "hours": "09:00–15:00" },
+    { "day": "שני", "label": "", "hours": "10:00–18:00" },
+    { "day": "שלישי", "label": "", "hours": "09:00–12:00" },
+    { "day": "רביעי", "label": "", "hours": "09:00–18:00" },
+    { "day": "חמישי", "label": "", "hours": "09:00–19:00" },
+    { "day": "שישי + שבת", "label": "", "hours": "סגור" }
+  ],
+  "addresses": [
+    {
+      "title": "הקליניקה הראשית",
+      "street": "ארניה 6",
+      "city": "רמת גן",
+      "note": ""
+    },
+    {
+      "title": "סטודיו תל אביב",
+      "street": "Nana Home",
+      "city": "תל אביב",
+      "note": "[כתובת מדויקת תינתן]"
+    }
+  ],
+  "nav": [
+    { "href": "/", "label": "עמוד הבית" },
+    { "href": "/about", "label": "אודות" },
+    { "href": "/services", "label": "שירותים" },
+    { "href": "/process", "label": "תהליך הטיפול" },
+    { "href": "/articles", "label": "מאמרים" },
+    { "href": "/testimonials", "label": "המלצות" },
+    { "href": "/contact", "label": "צור קשר" }
+  ]
+}

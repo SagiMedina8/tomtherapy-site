@@ -1,0 +1,19 @@
+{
+  "seo": {
+    "title": "קביעת תור",
+    "description": "קבע תור אונליין ל-SportTherapy — בחר יום, שעה ומיקום (רמת גן או תל אביב)."
+  },
+  "header": {
+    "eyebrow": "קביעת תור",
+    "title": "בחר יום, שעה, ומיקום",
+    "lead": "תורים נפתחים עד חודשיים קדימה. אם השעה שאתה צריך לא פנויה — שלח לי הודעה בוואטסאפ ואמצא פתרון."
+  },
+  "fallback": {
+    "prefix": "לא עובד לך?",
+    "linkText": "שלח הודעה בוואטסאפ"
+  },
+  "labels": {
+    "hoursEyebrow": "שעות פעילות"
+  },
+  "plannieUrl": "https://plannieapp.com/?name=tomkushsporttherapy"
+}

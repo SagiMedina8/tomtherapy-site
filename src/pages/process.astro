@@ -3,15 +3,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import ProcessStep from "../components/ProcessStep.astro";
 import { processSteps } from "../data/process-steps";
+import processPage from "../content/site/process.json";
 ---
 <BaseLayout
-  title="תהליך הטיפול"
-  description="ארבעה שלבים: אבחון ראשוני, מיפוי השרשרת, טיפול ממוקד, ותרגול שמקבע את השינוי. כל מפגש נבנה על המטופל — לא על תבנית קבועה."
+  title={processPage.seo.title}
+  description={processPage.seo.description}
 >
   <PageHeader
-    eyebrow="תהליך"
-    title="ארבעה שלבים. מהאבחון ועד לחידוש התנועה."
-    lead="כל מטופל מגיע עם סיפור אחר — אבל התהליך עצמו הוא אותו תהליך. שאלות, מיפוי, טיפול, תרגול. זה מה שעובד."
+    eyebrow={processPage.header.eyebrow}
+    title={processPage.header.title}
+    lead={processPage.header.lead}
   />
 
   <section class="mx-auto max-w-[920px] px-5 sm:px-8 pb-20">
@@ -19,8 +20,8 @@ import { processSteps } from "../data/process-steps";
   </section>
 
   <section class="mx-auto max-w-prose px-5 sm:px-8 pb-24 text-center">
-    <a href="/booking" class="btn btn-ghost-ink">
-      <span>קבע מפגש ראשון</span>
+    <a href={processPage.cta.href} class="btn btn-ghost-ink">
+      <span>{processPage.cta.text}</span>
       <span aria-hidden="true">←</span>
     </a>
   </section>
