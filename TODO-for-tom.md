@@ -5,15 +5,15 @@
 ## 1. נכסים / תוכן
 
 - [ ] **לוגו PNG עם שקיפות** — כרגע יש רק JPG עם רקע שחור (`public/images/logo-sporttherapy.jpg`). הוא משמש בפוטר (שם הרקע כהה ולכן זה מתאים), כ-apple-touch-icon וכ-og:image. גרסת PNG תאפשר שימוש נוסף באזורים בהירים (למשל: לצד headings).
-- [ ] **הכתובת המדויקת של סטודיו Nana Home בתל אביב** — כרגע `[כתובת מדויקת תינתן]`. מופיע ב-`src/data/site.ts` וב-`src/components/SchemaOrg.astro` וב-Footer.
-- [ ] **פין שני במפת Google** (`src/pages/contact.astro`) — המפה כרגע מציגה רק את ארניה 6 רמת גן. הוספת הפין השני תלויה בכתובת Nana Home. ב-Google Maps אפשר להשתמש ב-Directions API או בשני iframes.
+- [x] ~~**הכתובת המדויקת של סטודיו Nana Home בתל אביב**~~ — ✅ הוגדרה: Nana Home · בורוכוב 1, תל אביב יפו.
+- [x] ~~**פין שני במפת Google**~~ — ✅ נוסף. עמוד `/contact` מציג כעת שני iframes של Google Maps זה מתחת לזה (רמת גן + תל אביב), כל אחד בגובה 260px.
 - [ ] **אימות תוכן המאמרים** — המאמרים הרפואיים נכתבו על בסיס התדרוך שלך. שווה ביקורת שלך / רופא על דיוק עובדתי לפני פרסום.
 - [ ] **אימות תוכן ה-bodyMap (14 אזורי גוף)** — התוכן של המפה האינטראקטיבית בעמוד הבית נכתב על בסיס התדרוך. שווה לעבור על 14 האזורים ב-`src/content/site/bodyMap.json` ולוודא שהניסוחים (בעיות נפוצות + "הגישה הטיפולית") תואמים את הגישה המקצועית שלך.
 
 ## 2. חשבונות / מפתחות
 
 - [ ] **GA4 Measurement ID** — `src/content/site/brand.json`: `"ga4Id": "G-XXXXXXXXXX"`. להחליף ל-ID האמיתי. קוד ה-tracking רץ רק ב-production (`import.meta.env.PROD`), אז לא יפגע ב-dev.
-- [ ] **אימייל אמיתי** — `src/content/site/brand.json`: `"email": "tom@kushlinsporttherapy.co.il"`. זה placeholder. אם זה האימייל האמיתי — להשאיר; אחרת להחליף.
+- [x] ~~**אימייל אמיתי**~~ — ✅ הוגדר: `tom.kush123@gmail.com` ב-`src/content/site/brand.json`.
 - [ ] **תחום מותאם** — ב-`astro.config.mjs` וב-`src/content/site/brand.json` מוגדר `https://sporttherapy.netlify.app`. לעדכן לתחום הקבוע (למשל `kushlinsporttherapy.co.il`) ברגע שהוא מוכן — זה משפיע על sitemap, canonical URLs, Schema.org, og:image.
 
 ## 3. פריסה

@@ -172,23 +172,43 @@ import contact from "../content/site/contact.json";
           </p>
         </form>
 
-        <!-- Google Map -->
+        <!-- Google Maps — two locations -->
         <div class="mt-10">
           <p class="eyebrow-label text-teal-deep mb-4 text-right">{contact.labels.locationEyebrow}</p>
-          {/* TODO: second pin for Nana Home Tel Aviv once exact address is provided */}
-          <div class="relative w-full overflow-hidden border border-hairline bg-paper" style="aspect-ratio: 4 / 3;">
-            <iframe
-              src="https://www.google.com/maps?q=%D7%90%D7%A8%D7%A0%D7%99%D7%94%206,%20%D7%A8%D7%9E%D7%AA%20%D7%92%D7%9F&output=embed"
-              title="מפת מיקום — ארניה 6, רמת גן"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              class="absolute inset-0 w-full h-full border-0"
-              style="min-height:320px;"
-            ></iframe>
+
+          <div class="space-y-6">
+            <!-- Ramat Gan -->
+            <div>
+              <p class="text-xs text-ink-soft/80 mb-2 text-right font-semibold">
+                הקליניקה הראשית · ארניה 6, רמת גן
+              </p>
+              <div class="relative w-full overflow-hidden border border-hairline bg-paper" style="height: 260px;">
+                <iframe
+                  src="https://www.google.com/maps?q=%D7%90%D7%A8%D7%A0%D7%99%D7%94%206,%20%D7%A8%D7%9E%D7%AA%20%D7%92%D7%9F&output=embed"
+                  title="מפת מיקום — ארניה 6, רמת גן"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  class="absolute inset-0 w-full h-full border-0"
+                ></iframe>
+              </div>
+            </div>
+
+            <!-- Tel Aviv -->
+            <div>
+              <p class="text-xs text-ink-soft/80 mb-2 text-right font-semibold">
+                סטודיו תל אביב · Nana Home, בורוכוב 1
+              </p>
+              <div class="relative w-full overflow-hidden border border-hairline bg-paper" style="height: 260px;">
+                <iframe
+                  src="https://www.google.com/maps?q=%D7%91%D7%95%D7%A8%D7%95%D7%9B%D7%95%D7%91%201,%20%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91%20%D7%99%D7%A4%D7%95&output=embed"
+                  title="מפת מיקום — בורוכוב 1, תל אביב יפו"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  class="absolute inset-0 w-full h-full border-0"
+                ></iframe>
+              </div>
+            </div>
           </div>
-          <p class="text-xs text-ink-soft/70 mt-3 text-right">
-            {contact.labels.locationCaption}
-          </p>
         </div>
       </div>
     </div>
