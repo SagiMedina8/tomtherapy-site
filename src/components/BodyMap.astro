@@ -5,22 +5,26 @@ import type { BodyMapContent, BodyMapRegion } from "../types/content";
 const data = bodyMap as BodyMapContent;
 const regions = data.regions as BodyMapRegion[];
 
-// Hotspot coordinates in a 200x500 viewBox
-const hotspots: Record<string, { cx: number; cy: number }> = {
-  neck: { cx: 100, cy: 75 },
-  shoulder: { cx: 135, cy: 110 },
-  scapula: { cx: 65, cy: 115 },
-  "upper-back": { cx: 100, cy: 140 },
-  elbow: { cx: 155, cy: 200 },
-  wrist: { cx: 170, cy: 270 },
-  "lower-back": { cx: 100, cy: 235 },
-  hip: { cx: 125, cy: 270 },
-  groin: { cx: 100, cy: 285 },
-  hamstring: { cx: 75, cy: 320 },
-  knee: { cx: 115, cy: 360 },
-  shin: { cx: 110, cy: 400 },
-  calf: { cx: 90, cy: 410 },
-  foot: { cx: 115, cy: 475 },
+// Hotspot coordinates + label placement in a viewBox -60 -5 320 515
+// (body coords remain 0 0 200 500; extra padding reserves room for labels)
+type Anchor = "start" | "middle" | "end";
+type Hotspot = { cx: number; cy: number; lx: number; ly: number; anchor: Anchor };
+
+const hotspots: Record<string, Hotspot> = {
+  neck:         { cx: 100, cy: 75,  lx: 80,  ly: 78,  anchor: "end"   },
+  shoulder:     { cx: 135, cy: 110, lx: 157, ly: 113, anchor: "start" },
+  scapula:      { cx: 65,  cy: 115, lx: 43,  ly: 118, anchor: "end"   },
+  "upper-back": { cx: 100, cy: 140, lx: 122, ly: 143, anchor: "start" },
+  elbow:        { cx: 155, cy: 200, lx: 177, ly: 203, anchor: "start" },
+  wrist:        { cx: 170, cy: 270, lx: 192, ly: 273, anchor: "start" },
+  "lower-back": { cx: 100, cy: 235, lx: 78,  ly: 238, anchor: "end"   },
+  hip:          { cx: 125, cy: 270, lx: 148, ly: 258, anchor: "start" },
+  groin:        { cx: 100, cy: 285, lx: 78,  ly: 296, anchor: "end"   },
+  hamstring:    { cx: 75,  cy: 320, lx: 53,  ly: 323, anchor: "end"   },
+  knee:         { cx: 115, cy: 360, lx: 138, ly: 363, anchor: "start" },
+  shin:         { cx: 110, cy: 400, lx: 132, ly: 403, anchor: "start" },
+  calf:         { cx: 90,  cy: 410, lx: 68,  ly: 413, anchor: "end"   },
+  foot:         { cx: 115, cy: 478, lx: 138, ly: 493, anchor: "start" },
 };
 ---
 <section
@@ -37,12 +41,12 @@ const hotspots: Record<string, { cx: number; cy: number }> = {
     </div>
 
     <!-- Map + panel grid -->
-    <div class="grid gap-10 md:gap-16 md:grid-cols-[minmax(240px,2fr)_3fr] items-start fade-up">
+    <div class="grid gap-10 md:gap-12 md:grid-cols-[minmax(200px,320px)_1fr] items-start fade-up">
       <!-- Body SVG -->
       <div class="flex justify-center md:sticky md:top-28">
         <svg
-          viewBox="0 0 200 500"
-          class="w-full max-w-[260px] md:max-w-full h-auto"
+          viewBox="-60 -10 320 520"
+          class="w-full max-w-[200px] md:max-w-[280px] h-auto"
           role="img"
           aria-label="בחר אזור בגוף"
           xmlns="http://www.w3.org/2000/svg"
@@ -85,14 +89,16 @@ const hotspots: Record<string, { cx: number; cy: number }> = {
           <g id="body-map-hotspots">
             {
               regions.map((r) => {
-                const pos = hotspots[r.id] || { cx: 100, cy: 250 };
+                const h = hotspots[r.id] || {
+                  cx: 100, cy: 250, lx: 120, ly: 253, anchor: "start" as Anchor,
+                };
                 return (
                   <g class="body-hotspot" data-region-id={r.id}>
                     <circle
                       class="body-hotspot-ring"
-                      cx={pos.cx}
-                      cy={pos.cy}
-                      r="22"
+                      cx={h.cx}
+                      cy={h.cy}
+                      r="20"
                       fill="none"
                       stroke="var(--teal)"
                       stroke-width="1.5"
@@ -100,12 +106,21 @@ const hotspots: Record<string, { cx: number; cy: number }> = {
                     />
                     <circle
                       class="body-hotspot-dot"
-                      cx={pos.cx}
-                      cy={pos.cy}
-                      r="12"
+                      cx={h.cx}
+                      cy={h.cy}
+                      r="10"
                       fill="var(--teal)"
-                      opacity="0.55"
+                      stroke="var(--cream)"
+                      stroke-width="2"
+                      opacity="0.85"
                     />
+                    <text
+                      class="body-hotspot-label"
+                      x={h.lx}
+                      y={h.ly}
+                      text-anchor={h.anchor}
+                      dominant-baseline="middle"
+                    >{r.label}</text>
                     <title>{r.label}</title>
                   </g>
                 );
@@ -182,20 +197,42 @@ const hotspots: Record<string, { cx: number; cy: number }> = {
     .body-hotspot-ring {
       transition: opacity 200ms ease;
     }
+    .body-hotspot-label {
+      font-family: 'Assistant', system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      fill: var(--ink-soft);
+      pointer-events: none;
+      transition:
+        fill 200ms ease,
+        font-weight 200ms ease;
+    }
     .body-hotspot:hover .body-hotspot-dot,
     .body-hotspot:focus-visible .body-hotspot-dot,
     .body-hotspot.is-active .body-hotspot-dot {
-      r: 16;
+      r: 13;
       opacity: 1;
     }
     .body-hotspot.is-active .body-hotspot-ring {
       opacity: 0.9;
+    }
+    .body-hotspot:hover .body-hotspot-label,
+    .body-hotspot:focus-visible .body-hotspot-label,
+    .body-hotspot.is-active .body-hotspot-label {
+      fill: var(--teal-deep);
+      font-weight: 600;
     }
     .body-hotspot:focus-visible {
       outline: none;
     }
     .body-hotspot:focus-visible .body-hotspot-ring {
       opacity: 1;
+    }
+    /* Hide labels on small screens — SVG is tiny there and labels crowd */
+    @media (max-width: 767px) {
+      .body-hotspot-label {
+        display: none;
+      }
     }
     /* Fade transition for panel content swap */
     #body-map-content {
@@ -208,7 +245,8 @@ const hotspots: Record<string, { cx: number; cy: number }> = {
       #body-map-content,
       .body-hotspot,
       .body-hotspot-dot,
-      .body-hotspot-ring {
+      .body-hotspot-ring,
+      .body-hotspot-label {
         transition: none !important;
       }
     }
